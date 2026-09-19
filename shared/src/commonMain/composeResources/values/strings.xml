@@ -1,0 +1,100 @@
+<resources>
+    <!-- Common Errors -->
+    <string name="common_error_no_connection_title">Проблемы со связью</string>
+    <string name="common_error_no_connection_msg">Проверьте интернет-соединение</string>
+    <string name="common_error_timeout_title">Время ожидания истекло</string>
+    <string name="common_error_timeout_msg">Сервер отвечает слишком долго</string>
+    <string name="common_error_unknown_title">Произошла ошибка</string>
+    <string name="common_error_unknown_msg">Что-то пошло не так</string>
+    <string name="common_error_internal_server_title">Ошибка сервера</string>
+    <string name="common_error_internal_server_msg">Внутренняя ошибка сервера. Попробуйте позже</string>
+    <string name="common_error_not_found_title">Ничего не найдено</string>
+    <string name="common_error_not_found_msg">Ресурс не найден</string>
+    <string name="common_error_bad_request_title">Ошибка во введенных данных</string>
+    <string name="common_error_bad_request_msg">Проверьте правильность заполнения полей</string>
+    <string name="common_error_invalid_request_title">Неверный запрос</string>
+    <string name="common_error_invalid_request_msg">Запрос содержит некорректные данные</string>
+    <string name="common_error_unprocessable_entity_title">Ошибка обработки</string>
+    <string name="common_error_unprocessable_entity_msg">Не удалось обработать операцию</string>
+    <string name="common_error_bad_gateway_title">Сервер недоступен</string>
+    <string name="common_error_bad_gateway_msg">Сервер временно недоступен</string>
+
+    <!-- Navigation -->
+    <string name="common_nav_auth">Авторизация</string>
+    <string name="common_nav_notes">Заметки</string>
+    <string name="common_nav_projects">Проекты</string>
+    <string name="common_nav_tags">Теги</string>
+
+    <!-- Auth Feature -->
+    <string name="auth_title">Авторизация</string>
+    <string name="auth_subtitle">Введите почту и пароль для входа</string>
+    <string name="auth_email_label">Email</string>
+    <string name="auth_password_label">Пароль</string>
+    <string name="auth_email_placeholder">example@domain.com</string>
+    <string name="auth_email_error_empty">Введите адрес электронной почты</string>
+    <string name="auth_email_error_invalid">Некорректный формат email</string>
+    <string name="auth_password_error_empty">Введите пароль</string>
+    <string name="auth_password_error_short">Пароль должен содержать не менее 6 символов</string>
+    <string name="auth_action_toggle_password_visibility">Переключить видимость пароля</string>
+    <string name="auth_error_title">Ошибка авторизации</string>
+    <string name="auth_error_unauthorized_msg">Для выполнения этого действия требуется авторизация</string>
+    <string name="auth_error_credentials_msg">Неверный логин или пароль</string>
+    <string name="auth_error_session_expired_msg">Ошибка авторизации. Пожалуйста, перезайдите в приложение</string>
+    <string name="auth_action_login">Войти</string>
+    <string name="auth_no_account_prompt">Нет аккаунта?</string>
+    <string name="auth_action_register">Зарегистрироваться</string>
+
+    <!-- Register Feature -->
+    <string name="register_title">Регистрация</string>
+    <string name="register_subtitle">Создайте аккаунт для продолжения</string>
+    <string name="register_nickname_label">Псевдоним</string>
+    <string name="register_nickname_placeholder">username</string>
+    <string name="register_nickname_error_empty">Введите никнейм</string>
+    <string name="register_confirm_password_label">Повторите пароль</string>
+    <string name="register_confirm_password_error_empty">Повторите пароль</string>
+    <string name="register_confirm_password_error_mismatch">Пароли не совпадают</string>
+    <string name="register_already_have_account_prompt">Уже есть аккаунт?</string>
+    <string name="register_action_login">Войти</string>
+    <string name="register_action_submit">Зарегистрироваться</string>
+
+    <!-- User Feature -->
+    <string name="user_error_title">Ошибка аккаунта</string>
+    <string name="user_error_not_found_title">Пользователь не найден</string>
+    <string name="user_error_not_found_msg">Возможно данного пользователя не существует, либо он был удален</string>
+    <string name="user_error_email_already_in_use_msg">Такая почта уже используется</string>
+
+    <!-- Common Actions -->
+    <string name="common_action_retry">Повторить</string>
+    <string name="common_action_ok">ОК</string>
+    <string name="common_action_cancel">Отмена</string>
+
+    <!-- Common Loading -->
+    <string name="common_loading_long_msg">Требуется больше времени…</string>
+
+    <!-- Date Time -->
+    <string name="common_datetime_today">Сегодня</string>
+    <string name="common_datetime_yesterday">Вчера</string>
+    <string name="common_datetime_tomorrow">Завтра</string>
+    <string name="common_datetime_year_suffix">г.</string>
+
+    <string name="common_datetime_month_1">января</string>
+    <string name="common_datetime_month_2">февраля</string>
+    <string name="common_datetime_month_3">марта</string>
+    <string name="common_datetime_month_4">апреля</string>
+    <string name="common_datetime_month_5">мая</string>
+    <string name="common_datetime_month_6">июня</string>
+    <string name="common_datetime_month_7">июля</string>
+    <string name="common_datetime_month_8">августа</string>
+    <string name="common_datetime_month_9">сентября</string>
+    <string name="common_datetime_month_10">октября</string>
+    <string name="common_datetime_month_11">ноября</string>
+    <string name="common_datetime_month_12">декабря</string>
+
+    <string name="common_datetime_weekday_1">понедельник</string>
+    <string name="common_datetime_weekday_2">вторник</string>
+    <string name="common_datetime_weekday_3">среда</string>
+    <string name="common_datetime_weekday_4">четверг</string>
+    <string name="common_datetime_weekday_5">пятница</string>
+    <string name="common_datetime_weekday_6">суббота</string>
+    <string name="common_datetime_weekday_7">воскресенье</string>
+</resources>
