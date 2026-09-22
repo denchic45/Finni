@@ -38,7 +38,7 @@ class EventHandler(private val router: Router) {
         onRetry: (() -> Unit)? = null
     ): UIEvent {
         val defaultAction = when {
-            uiError.origin is UnauthorizedError -> UIEvent.Action(
+            (uiError.origin as? com.hackathon.finni.core.presentation.error.ApiFailure)?.error is UnauthorizedError -> UIEvent.Action(
                 UiText.Resource(Res.string.auth_action_login)
             ) { router.updateTabs { mapOf() } }
 

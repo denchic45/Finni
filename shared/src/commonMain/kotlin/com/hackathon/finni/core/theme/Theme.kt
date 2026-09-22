@@ -102,10 +102,11 @@ expect fun platformColorScheme(
 @Composable
 fun AppTheme(
     isDarkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val spacing = Spacing()
+    val gameColors = remember { GameColors() }
     val colorScheme = platformColorScheme(
         isDarkTheme = isDarkTheme,
         dynamicColor = dynamicColor,
@@ -116,6 +117,7 @@ fun AppTheme(
     CompositionLocalProvider(
         LocalSpacing provides spacing,
         LocalSnackbarHostState provides remember { SnackbarHostState() },
+        LocalGameColors provides gameColors,
     ) {
         MaterialTheme(
             colorScheme = colorScheme,

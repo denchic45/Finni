@@ -36,7 +36,8 @@ class ContextPickerViewModel(
     private val projectRepository: ProjectRepository
 ) : ViewModel(), ErrorHandler by errorHandler {
 
-    val projects = projectRepository.observeAll().stateInCacheableResource(viewModelScope)
+    val projects: StateFlow<com.hackathon.finni.core.resource.CacheableResource<List<com.hackathon.finni.api.project.model.ProjectResponse>>> =
+        projectRepository.observeAll().stateInCacheableResource(viewModelScope)
 
     val state: StateFlow<ProjectsUiState> = combine(
         projectRepository.countInbox(),
@@ -71,9 +72,11 @@ class ContextPickerViewModel(
                 } else false
             }
         ) {
-            projectRepository.remove(projectId).onRight {
+            val result = projectRepository.remove(projectId)
+            if (result is arrow.core.Either.Right) {
                 eventHandler.sendEvent(UIEvent.Toast(UiText.Dynamic("Проект успешно удален")))
             }
+            result
         }
     }
 }

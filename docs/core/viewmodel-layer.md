@@ -40,8 +40,10 @@ graph LR
 ### Core Responsibilities
 1. **State Management**: Exposing observable, lifecycle-aware state (`StateFlow` or Compose `State`) to the UI.
 2. **Action Handling**: Exposing public `on<Action>` functions responding to user gestures and events.
-3. **Cross-Cutting Delegation**: Connecting [`delegates`](docs/viewmodel-delegates.md) (`ErrorHandler`, `LoadingHandler`, `RefreshHandler`, and `EventHandler`).
-4. **Navigation & Flow Orchestration**: Triggering platform-independent screen transitions, tab switching, and result passing via [`Router`](docs/navigation.md).
+3. **Cross-Cutting Delegation**: Connecting [`delegates`](viewmodel-delegates.md) (`ErrorHandler`,
+   `LoadingHandler`, `RefreshHandler`, and `EventHandler`).
+4. **Navigation & Flow Orchestration**: Triggering platform-independent screen transitions, tab
+   switching, and result passing via [`Router`](navigation.md).
 5. **Lifecycle & Scoping**: Surviving configuration changes and managing long-running tasks in `viewModelScope`.
 
 ---

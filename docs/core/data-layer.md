@@ -406,3 +406,58 @@ class NoteRepository(
 - ❌ **Throwing raw HTTP exceptions in Repositories**: Return `RequestResult<T>` (`Either<Failure, T>`) or `Ior<Failure, T>` instead of throwing runtime exceptions.
 - ❌ **Ignoring `SyncStatus` in queries**: Ensure soft-deleted (`is_deleted = 1` / `PENDING_DELETE`) items are excluded from active list queries until permanently removed.
 - ❌ **Re-fetching full list without pagination**: For entity collections with more than 20–50 items, always use `Paginator` with local page observation.
+
+---
+
+## 10. Date, Time & Serialization Standards
+
+### 10.1. `kotlin.time` vs `kotlinx.datetime`
+
+> [!IMPORTANT]
+> **Use `kotlin.time` for timestamps and clocks.**
+> Starting with Kotlin 2.1+ and `kotlinx-datetime 0.7.0+ / 0.8.0+`, **`Instant`** and **`Clock`**
+> belong to the standard library (`kotlin.time.Instant`, `kotlin.time.Clock`).
+> In `kotlinx.datetime`, `kotlinx.datetime.Instant` and `kotlinx.datetime.Clock` are **deprecated**.
+
+| Concept                     | Recommended API                  | Deprecated / Avoid                                |
+|-----------------------------|----------------------------------|---------------------------------------------------|
+| **Timestamp / Epoch**       | `kotlin.time.Instant`            | ❌ `kotlinx.datetime.Instant` *(deprecated)*       |
+| **Current Time Source**     | `kotlin.time.Clock.System.now()` | ❌ `kotlinx.datetime.Clock` *(deprecated)*         |
+| **Duration / Elapsed Time** | `kotlin.time.Duration`           | -                                                 |
+| **Calendar Dates**          | `kotlinx.datetime.LocalDate`     | -                                                 |
+| **Calendar Date & Time**    | `kotlinx.datetime.LocalDateTime` | -                                                 |
+| **Day of Month**            | `localDate.day`                  | ❌ `localDate.dayOfMonth` *(deprecated in 0.8.0+)* |
+| **Time Zones**              | `kotlinx.datetime.TimeZone`      | -                                                 |
+
+#### Converting `kotlin.time.Instant` to Calendar Dates
+
+With `kotlinx-datetime 0.8.0+`, `toLocalDateTime` extends `kotlin.time.Instant` directly:
+
+```kotlin
+import kotlin.time.Clock
+import kotlin.time.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
+
+val now: Instant = Clock.System.now()
+val localDateTime = now.toLocalDateTime(TimeZone.currentSystemDefault())
+val day = localDateTime.date.day // Note: use .day, not deprecated .dayOfMonth
+```
+
+### 10.2. Serialization of `kotlin.time.Instant`
+
+For serializing `kotlin.time.Instant` as epoch milliseconds in API DTOs and Room converters:
+
+```kotlin
+import com.hackathon.finni.core.util.InstantSerializer
+import kotlinx.serialization.Serializable
+import kotlin.time.Instant
+
+@Serializable
+data class NoteResponse(
+    val id: NoteId,
+    @Serializable(with = InstantSerializer::class)
+    val createdAt: Instant
+)
+```
+

@@ -33,3 +33,9 @@ fun <A, B> Ior<A, B>.toEitherLeftBiased(): Either<A, B> = fold(
     fb = { Either.Right(it) },
     fab = { a, _ -> Either.Left(a) }
 )
+
+fun <A, B> Ior<A, B>.getOrNull(): B? = when (this) {
+    is Ior.Left -> null
+    is Ior.Right -> value
+    is Ior.Both -> rightValue
+}

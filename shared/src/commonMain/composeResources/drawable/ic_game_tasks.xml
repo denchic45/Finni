@@ -1,0 +1,68 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <!-- Доска планшета (Теплая древесная/золотая) -->
+    <path
+        android:fillColor="#F57C00"
+        android:pathData="M12,10 C12,7.8 13.8,6 16,6 L32,6 C34.2,6 36,7.8 36,10 L36,40 C36,42.2 34.2,44 32,44 L16,44 C13.8,44 12,42.2 12,40 Z" />
+    <path
+        android:pathData="M12,10 C12,7.8 13.8,6 16,6 L32,6 C34.2,6 36,7.8 36,10 L36,40 C36,42.2 34.2,44 32,44 L16,44 C13.8,44 12,42.2 12,40 Z"
+        android:strokeWidth="2.5"
+        android:strokeColor="#52270D"
+        android:strokeLineJoin="round" />
+    <!-- Бумажный лист на планшете -->
+    <path
+        android:fillColor="#FFFDF6"
+        android:pathData="M15,12 C15,10.9 15.9,10 17,10 L31,10 C32.1,10 33,10.9 33,12 L33,39 C33,40.1 32.1,41 31,41 L17,41 C15.9,41 15,40.1 15,39 Z" />
+    <path
+        android:pathData="M15,12 C15,10.9 15.9,10 17,10 L31,10 C32.1,10 33,10.9 33,12 L33,39 C33,40.1 32.1,41 31,41 L17,41 C15.9,41 15,40.1 15,39 Z"
+        android:strokeWidth="1.5"
+        android:strokeColor="#7A3D14" />
+    <!-- Зажим сверху -->
+    <path
+        android:fillColor="#FFD54F"
+        android:pathData="M20,4 C20,3 21,2 22,2 L26,2 C27,2 28,3 28,4 L29,8 L19,8 Z" />
+    <path
+        android:pathData="M20,4 C20,3 21,2 22,2 L26,2 C27,2 28,3 28,4 L29,8 L19,8 Z"
+        android:strokeWidth="2"
+        android:strokeColor="#52270D" />
+    <!-- Строки задач с галочками -->
+    <!-- Чек 1 -->
+    <path
+        android:pathData="M18,17 L20,19 L23,15"
+        android:strokeWidth="2"
+        android:strokeColor="#F57C00"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M25,17 L30,17"
+        android:strokeWidth="2"
+        android:strokeColor="#8D5224"
+        android:strokeLineCap="round" />
+    <!-- Чек 2 -->
+    <path
+        android:pathData="M18,24 L20,26 L23,22"
+        android:strokeWidth="2"
+        android:strokeColor="#F57C00"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M25,24 L30,24"
+        android:strokeWidth="2"
+        android:strokeColor="#8D5224"
+        android:strokeLineCap="round" />
+    <!-- Чек 3 -->
+    <path
+        android:pathData="M18,31 L20,33 L23,29"
+        android:strokeWidth="2"
+        android:strokeColor="#F57C00"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M25,31 L30,31"
+        android:strokeWidth="2"
+        android:strokeColor="#8D5224"
+        android:strokeLineCap="round" />
+</vector>

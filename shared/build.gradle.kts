@@ -50,7 +50,10 @@ kotlin {
             implementation(libs.tink.java)
         }
         commonMain.dependencies {
-            implementation(libs.ktor.client.cio)
+            implementation(libs.arrow.core)
+            implementation(libs.bundles.ktor)
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.kotlinx.datetime)
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
             implementation(libs.compose.material3)

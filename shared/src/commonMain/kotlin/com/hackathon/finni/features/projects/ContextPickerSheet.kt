@@ -52,7 +52,8 @@ fun ContextPickerSheet(
 ) {
     val state by viewModel.state.collectAsState()
     val projectsResource by viewModel.projects.collectAsState()
-    val projects = projectsResource.getValueOrNull() ?: emptyList()
+    val projects: List<com.hackathon.finni.api.project.model.ProjectResponse> =
+        projectsResource.getValueOrNull() ?: emptyList()
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,

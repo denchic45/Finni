@@ -36,6 +36,9 @@ data class Confirmation(val title: String, val text: String? = null) : Modal
 @Serializable
 data class OverlayImages(val urls: List<String>, val initialIndex: Int) : Modal
 
+@Serializable
+data object GameUiShowcase : Destination
+
 
 val appTabs = listOf(
     Home

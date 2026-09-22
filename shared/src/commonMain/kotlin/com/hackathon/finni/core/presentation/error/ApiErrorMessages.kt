@@ -4,9 +4,11 @@ import com.hackathon.finni.api.error.ApiError
 import com.hackathon.finni.api.error.AuthError
 import com.hackathon.finni.api.error.BadGatewayError
 import com.hackathon.finni.api.error.BadRequestError
+import com.hackathon.finni.api.error.FailedValidation
 import com.hackathon.finni.api.error.InternalServerError
 import com.hackathon.finni.api.error.InvalidRequest
 import com.hackathon.finni.api.error.NotFoundError
+import com.hackathon.finni.api.error.ProjectNotFound
 import com.hackathon.finni.api.error.UnknownError
 import com.hackathon.finni.api.error.UnprocessableEntityError
 import com.hackathon.finni.api.error.UserError
@@ -32,5 +34,7 @@ fun ApiError.toApiErrorMessage(): UiText = when (this) {
     is UnprocessableEntityError -> UiText.Resource(Res.string.common_error_unprocessable_entity_msg)
     is BadGatewayError -> UiText.Resource(Res.string.common_error_bad_gateway_msg)
 
+    is ProjectNotFound -> UiText.Dynamic("Проект не найден")
+    is FailedValidation -> UiText.Dynamic(message)
     is UnknownError -> UiText.Dynamic("Произошла непредвиденная ошибка (Код: ${this.httpCodeValue})")
 }

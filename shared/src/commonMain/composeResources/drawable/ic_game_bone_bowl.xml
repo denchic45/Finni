@@ -1,0 +1,52 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <!-- Тень под миской -->
+    <path
+        android:fillColor="#3E1A06"
+        android:pathData="M8,38 C14,44 34,44 40,38 C34,42 14,42 8,38 Z" />
+    <!-- Нижний обод миски -->
+    <path
+        android:fillColor="#D86B00"
+        android:pathData="M6,34 L12,41 C14,43 34,43 36,41 L42,34 C43,30 5,30 6,34 Z" />
+    <!-- Корпус миски (оранжевый градиент/заливка) -->
+    <path
+        android:fillColor="#FFA000"
+        android:pathData="M5,28 L8,38 C10,42 38,42 40,38 L43,28 C45,21 3,21 5,28 Z" />
+    <!-- Верхний обод миски -->
+    <path
+        android:fillColor="#FFD54F"
+        android:pathData="M24,20 C34,20 43,23 43,26 C43,29 34,32 24,32 C14,32 5,29 5,26 C5,23 14,20 24,20 Z" />
+    <!-- Внутренность миски -->
+    <path
+        android:fillColor="#8D4004"
+        android:pathData="M24,21 C33,21 41,23.5 41,26 C41,28.5 33,31 24,31 C15,31 7,28.5 7,26 C7,23.5 15,21 24,21 Z" />
+    <!-- Косточка в миске -->
+    <path
+        android:fillColor="#FFFDF7"
+        android:pathData="M17,21 C15,19 15,16 17,14 C19,16 20,16 22,17 L29,22 C31,21 32,21 34,20 C36,22 36,25 34,27 C32,25 31,25 29,25 L22,20 C20,21 19,21 17,21 Z" />
+    <!-- Контур косточки -->
+    <path
+        android:pathData="M16.5,14 C15.5,15 15.5,17 16.5,18 C17.5,19 19,18.5 20,17.5 L28,23 C29,24 30.5,23.5 31.5,22.5 C32.5,21.5 32.5,19.5 31.5,18.5"
+        android:strokeWidth="1.5"
+        android:strokeColor="#7A3D12"
+        android:strokeLineCap="round" />
+    <!-- Лапка на миске -->
+    <path
+        android:fillColor="#5A2605"
+        android:pathData="M24,34 C22.5,34 21.5,35 21.5,36.5 C21.5,38 22.5,39 24,39 C25.5,39 26.5,38 26.5,36.5 C26.5,35 25.5,34 24,34 Z" />
+    <path
+        android:fillColor="#5A2605"
+        android:pathData="M20,33 C19.2,33 18.5,33.7 18.5,34.5 C18.5,35.3 19.2,36 20,36 C20.8,36 21.5,35.3 21.5,34.5 C21.5,33.7 20.8,33 20,33 Z" />
+    <path
+        android:fillColor="#5A2605"
+        android:pathData="M28,33 C27.2,33 26.5,33.7 26.5,34.5 C26.5,35.3 27.2,36 28,36 C28.8,36 29.5,35.3 29.5,34.5 C29.5,33.7 28.8,33 28,33 Z" />
+    <path
+        android:fillColor="#5A2605"
+        android:pathData="M22,30.5 C21.2,30.5 20.5,31.2 20.5,32 C20.5,32.8 21.2,33.5 22,33.5 C22.8,33.5 23.5,32.8 23.5,32 C23.5,31.2 22.8,30.5 22,30.5 Z" />
+    <path
+        android:fillColor="#5A2605"
+        android:pathData="M26,30.5 C25.2,30.5 24.5,31.2 24.5,32 C24.5,32.8 25.2,33.5 26,33.5 C26.8,33.5 27.5,32.8 27.5,32 C27.5,31.2 26.8,30.5 26,30.5 Z" />
+</vector>

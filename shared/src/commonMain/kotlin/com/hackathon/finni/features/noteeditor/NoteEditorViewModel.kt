@@ -162,10 +162,11 @@ class NoteEditorViewModel(
                 )
             }
 
-            result.onRight {
+            if (result is arrow.core.Either.Right) {
                 eventHandler.sendEvent(UIEvent.Toast(UiText.Dynamic("Заметка сохранена")))
                 onSuccess()
             }
+            result
         }
     }
 

@@ -9,6 +9,7 @@ import com.hackathon.finni.core.paginator.Paginator
 import com.hackathon.finni.core.paginator.PaginatorUIState
 import com.hackathon.finni.core.presentation.handlers.ErrorHandler
 import com.hackathon.finni.core.presentation.handlers.RefreshHandler
+import com.hackathon.finni.core.ui.navigation.GameUiShowcase
 import com.hackathon.finni.core.ui.navigation.NoteEditor
 import com.hackathon.finni.core.ui.navigation.router.ContextSelectedResult
 import com.hackathon.finni.core.ui.navigation.router.Router
@@ -106,6 +107,10 @@ class HomeViewModel(
 
     fun onCreateNoteClick() {
         router.push(NoteEditor(noteId = null))
+    }
+
+    fun onOpenGameUiShowcase() {
+        router.push(GameUiShowcase)
     }
 
     // --- Navigation (Pickers) ---

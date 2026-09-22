@@ -15,9 +15,6 @@ import com.hackathon.finni.data.database.AppDatabase
 import com.hackathon.finni.data.database.dao.SyncQueueDao
 import com.hackathon.finni.data.database.entity.SyncQueueEntity
 import com.hackathon.finni.data.database.withTransaction
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -97,8 +94,8 @@ class SyncManager(
         item: SyncQueueEntity
     ): SyncResult {
         val typedId = handler.deserializeId(item.entityId)
-        
-        val networkResult = safeFetch {
+
+        val networkResult: com.hackathon.finni.data.RequestResult<Any?> = safeFetch {
             when (item.actionType) {
                 ActionType.CREATE -> {
                     val data = handler.deserialize(item.content)
@@ -114,8 +111,9 @@ class SyncManager(
             }
         }
 
-        return networkResult.fold(
-            ifLeft = { failure ->
+        val result: SyncResult = when (networkResult) {
+            is arrow.core.Either.Left -> {
+                val failure = networkResult.value
                 if (isTransientError(failure)) {
                     queueDao.incrementRetry(item.id)
                     SyncResult.Queued(failure)
@@ -129,8 +127,10 @@ class SyncManager(
                     }
                     SyncResult.Failed(failure)
                 }
-            },
-            ifRight = { response ->
+            }
+
+            is arrow.core.Either.Right -> {
+                val response = networkResult.value
                 database.withTransaction {
                     queueDao.deleteById(item.id)
                     if (item.actionType != ActionType.DELETE) {
@@ -140,9 +140,9 @@ class SyncManager(
                 }
                 SyncResult.Synced
             }
-        ).also {
-            delay(handler.asyncDelayMs.milliseconds)
         }
+        delay(handler.asyncDelayMs.milliseconds)
+        return result
     }
 
     private fun isTransientError(failure: Failure): Boolean {

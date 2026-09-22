@@ -1,3 +1,5 @@
+@file:kotlinx.serialization.UseSerializers(com.hackathon.finni.core.util.InstantSerializer::class)
+
 package com.hackathon.finni.data.database.entity
 
 import androidx.room3.ColumnInfo

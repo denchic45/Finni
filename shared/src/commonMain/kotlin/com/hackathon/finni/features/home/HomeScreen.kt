@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
@@ -53,6 +54,9 @@ import com.hackathon.finni.core.paginator.PaginatorEffect
 import com.hackathon.finni.core.paginator.shouldShowAppend
 import com.hackathon.finni.core.paginator.shouldShowPrepend
 import com.hackathon.finni.core.ui.components.AppPullToRefreshBox
+import com.hackathon.finni.core.ui.components.game.GameButton
+import com.hackathon.finni.core.ui.components.game.GameButtonSize
+import com.hackathon.finni.core.ui.components.game.GameButtonStyle
 import com.hackathon.finni.features.projects.ContextPickerSheet
 import com.hackathon.finni.resources.Res
 import com.hackathon.finni.resources.ic_edit
@@ -79,11 +83,27 @@ fun HomeScreen(
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            Box(
-                Modifier.width(300.dp).fillMaxSize().background(MaterialTheme.colorScheme.surface)
-                    .padding(16.dp)
+            Column(
+                modifier = Modifier
+                    .width(300.dp)
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.surface)
+                    .padding(20.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                Text("Navigation Drawer")
+                Text(
+                    text = "Финни Меню",
+                    style = MaterialTheme.typography.titleLarge
+                )
+                GameButton(
+                    text = "🎮 Игровая витрина",
+                    onClick = {
+                        scope.launch { drawerState.close() }
+                        viewModel.onOpenGameUiShowcase()
+                    },
+                    style = GameButtonStyle.Primary,
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
         }
     ) {
@@ -94,7 +114,8 @@ fun HomeScreen(
                     searchQuery = uiState.filter.searchQuery,
                     onSearchQueryChange = viewModel::onSearchQueryChange,
                     onSearchExpandToggle = viewModel::onSearchExpandToggle,
-                    onMenuClick = { scope.launch { drawerState.open() } }
+                    onMenuClick = { scope.launch { drawerState.open() } },
+                    onOpenShowcase = viewModel::onOpenGameUiShowcase
                 )
             },
             bottomBar = {
@@ -160,13 +181,14 @@ private fun HomeTopBar(
     searchQuery: String,
     onSearchQueryChange: (String) -> Unit,
     onSearchExpandToggle: (Boolean) -> Unit,
-    onMenuClick: () -> Unit
+    onMenuClick: () -> Unit,
+    onOpenShowcase: () -> Unit
 ) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = if (isSearchExpanded) 0.dp else 16.dp, vertical = 8.dp),
-        contentAlignment = Alignment.Center
+            .statusBarsPadding()
+            .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
         SearchBar(
             inputField = {
@@ -190,11 +212,22 @@ private fun HomeTopBar(
                     },
                     trailingIcon = {
                         if (!isSearchExpanded) {
-                            IconButton(onClick = { /* Sort */ }) {
-                                Icon(
-                                    painterResource(Res.drawable.ic_sort),
-                                    contentDescription = "Sort"
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                GameButton(
+                                    text = "🎮 Финни",
+                                    onClick = onOpenShowcase,
+                                    size = GameButtonSize.Small,
+                                    style = GameButtonStyle.Primary
                                 )
+                                IconButton(onClick = { /* Sort */ }) {
+                                    Icon(
+                                        painterResource(Res.drawable.ic_sort),
+                                        contentDescription = "Sort"
+                                    )
+                                }
                             }
                         }
                     }

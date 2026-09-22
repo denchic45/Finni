@@ -7,15 +7,16 @@ import androidx.datastore.core.okio.OkioStorage
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.room3.Room
+import com.google.crypto.tink.Aead
 import com.hackathon.finni.core.crypto.JvmCryptoManager
 import com.hackathon.finni.core.crypto.Tink
 import com.hackathon.finni.core.lifecycle.AppLifecycleObserver
 import com.hackathon.finni.core.network.DesktopNetworkObserver
 import com.hackathon.finni.core.network.NetworkObserver
 import com.hackathon.finni.core.presentation.handlers.UrlHandler
+import com.hackathon.finni.core.ui.components.ToastManager
 import com.hackathon.finni.data.database.AppDatabase
 import com.hackathon.finni.data.storage.AuthSettings
-import com.google.crypto.tink.Aead
 import okio.FileSystem
 import okio.Path.Companion.toPath
 import org.koin.core.module.Module
@@ -55,6 +56,7 @@ actual val platformModule: Module = module {
         )
     }
     singleOf(::UrlHandler)
+    singleOf(::ToastManager)
     singleOf(::AppLifecycleObserver)
     singleOf(::DesktopNetworkObserver) { bind<NetworkObserver>() }
 }
