@@ -37,8 +37,9 @@ import org.jetbrains.compose.resources.painterResource
  * Круговой сегментированный индикатор сытости с интерактивной миской по центру
  * (соответствует референсу в левом верхнем углу).
  *
- * @param hungerValue Значение сытости от 0 до 100
- * @param segmentsCount Количество сегментов шкалы (по умолчанию 6)
+ * @param hungerValue Значение сытости от 0 до 5
+ * @param maxHunger Максимальное значение сытости (по умолчанию 5)
+ * @param segmentsCount Количество сегментов шкалы (по умолчанию 5)
  * @param onBowlClick Клик по центральной кнопке-миске (покормить питомца)
  */
 @Composable
@@ -46,11 +47,12 @@ fun HungerRadialGauge(
     hungerValue: Int,
     modifier: Modifier = Modifier,
     size: Dp = 100.dp,
-    segmentsCount: Int = 6,
+    maxHunger: Int = 5,
+    segmentsCount: Int = 5,
     onBowlClick: () -> Unit = {}
 ) {
     val animatedHunger by animateFloatAsState(
-        targetValue = hungerValue.coerceIn(0, 100).toFloat(),
+        targetValue = hungerValue.coerceIn(0, maxHunger).toFloat(),
         animationSpec = tween(durationMillis = 400),
         label = "hunger_progress"
     )
@@ -86,7 +88,7 @@ fun HungerRadialGauge(
             val gapAngle = 6f
             val segmentAngle = (totalAngle / segmentsCount) - gapAngle
 
-            val filledSegmentsRatio = animatedHunger / 100f
+            val filledSegmentsRatio = animatedHunger / maxHunger.toFloat()
             val activeSegmentsCount = (filledSegmentsRatio * segmentsCount)
 
             for (i in 0 until segmentsCount) {

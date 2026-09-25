@@ -56,7 +56,7 @@ fun GameUiShowcaseScreen(
     onBack: () -> Unit = {},
     onSettingsClick: () -> Unit = {}
 ) {
-    var hunger by remember { mutableStateOf(75) }
+    var hunger by remember { mutableStateOf(4) }
     var coins by remember { mutableStateOf(1150) }
     var mood by remember { mutableStateOf(PetMood.Happy) }
     var timePhase by remember { mutableStateOf(GameTimePhase.Day) }
@@ -110,8 +110,8 @@ fun GameUiShowcaseScreen(
                                 hungerValue = hunger,
                                 size = 96.dp,
                                 onBowlClick = {
-                                    // Клик по миске кормит питомца
-                                    hunger = (hunger + 20).coerceAtMost(100)
+                                    // Клик по миске кормит питомца (+1 из 5)
+                                    hunger = (hunger + 1).coerceAtMost(5)
                                 }
                             )
 
@@ -197,15 +197,15 @@ fun GameUiShowcaseScreen(
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             GameButton(
-                                text = "Покормить (+20)",
-                                onClick = { hunger = (hunger + 20).coerceAtMost(100) },
+                                text = "Покормить (+1)",
+                                onClick = { hunger = (hunger + 1).coerceAtMost(5) },
                                 style = GameButtonStyle.Primary,
                                 size = GameButtonSize.Small,
                                 modifier = Modifier.weight(1f)
                             )
                             GameButton(
-                                text = "Голод (-20)",
-                                onClick = { hunger = (hunger - 20).coerceAtLeast(0) },
+                                text = "Голод (-1)",
+                                onClick = { hunger = (hunger - 1).coerceAtLeast(0) },
                                 style = GameButtonStyle.Secondary,
                                 size = GameButtonSize.Small,
                                 modifier = Modifier.weight(1f)

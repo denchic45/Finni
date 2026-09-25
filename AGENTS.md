@@ -59,8 +59,14 @@ Welcome to the **Finni** project! This is a Kotlin Multiplatform (KMP) project t
 
 ### 3. Implementation Specs (`docs/implementation/`)
 
-- *Feature specifications, screen models, database entities, and feature-level architecture (in
-  progress).*
+- **App Navigation Architecture**: [docs/implementation/navigation.md](docs/implementation/navigation.md) —
+  Jetpack Navigation 3, `Router`, full destination hierarchy, bottom bar tabs, and modal flows.
+- **Main Screen Specification**: [docs/implementation/main-screen.md](docs/implementation/main-screen.md) —
+  Main game screen architecture, top HUD (Hunger, Mood, Wallet, TimeOfDay), Pet room, 4-tab bottom menu, and `MainUiState`.
+- **Tasks Engine & Generic Protocols**: [docs/implementation/tasks-engine.md](docs/implementation/tasks-engine.md) —
+  Data-driven task engine, 4 generic polymorphic protocols (`DILEMMA`, `SMART_SHOP`, `CARD_SORTING`, `BUDGET_SPLIT`), variable parameters, and evaluation pipeline.
+
+
 
 ## Guidelines for AI Agents
 1. **Prefer Shared Logic**: Always try to implement features in `shared/src/commonMain` first. Avoid platform-specific code unless necessary.
