@@ -3,7 +3,6 @@ package com.hackathon.finni
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -30,7 +29,6 @@ import com.hackathon.finni.core.ui.navigation.Confirmation
 import com.hackathon.finni.core.ui.navigation.Home
 import com.hackathon.finni.core.ui.navigation.OverlayImages
 import com.hackathon.finni.core.ui.navigation.SimpleOverlaySceneStrategy
-import com.hackathon.finni.core.ui.navigation.Splash
 import com.hackathon.finni.core.ui.navigation.router.Destination
 import com.hackathon.finni.core.ui.navigation.router.pop
 import com.hackathon.finni.core.ui.navigation.router.push
@@ -90,12 +88,6 @@ private fun AppNavigation(
             rememberViewModelStoreNavEntryDecorator()
         ),
         entryProvider = entryProvider {
-            entry<Splash> {
-                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator()
-                }
-            }
-
             entry<Home>(metadata = ListDetailSceneStrategy.listPane()) {
                 MainScreen(
                     onTabSelected = { tab ->

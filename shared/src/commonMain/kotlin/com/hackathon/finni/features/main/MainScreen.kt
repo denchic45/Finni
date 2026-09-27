@@ -1,7 +1,9 @@
 package com.hackathon.finni.features.main
 
+import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -19,10 +21,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -56,6 +61,8 @@ import org.koin.compose.viewmodel.koinViewModel
  *    - Свободный поворот камеры жестами по всему экрану, включая касания и свайпы по питомцу
  * 4. Нижняя панель:
  *    - [GameBottomBar] (Задачи, Копилка, Магазин, Уровни)
+ * 5. Синхронное появление:
+ *    - До загрузки 3D сцены интерфейс скрыт и появляется с синхронной плавной анимацией
  */
 @Composable
 fun MainScreen(
@@ -65,6 +72,7 @@ fun MainScreen(
     onTabSelected: (GameTab) -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    var isSceneReady by remember { mutableStateOf(false) }
 
     MainScreenContent(
         modifier = modifier,
@@ -74,6 +82,8 @@ fun MainScreen(
         timePhase = uiState.timePhase,
         selectedTab = uiState.selectedTab,
         isTasksDialogOpen = uiState.isTasksDialogOpen,
+        isSceneReady = isSceneReady,
+        onSceneReady = { isSceneReady = true },
         onBowlClick = viewModel::onBowlClick,
         onMoodClick = viewModel::onMoodClick,
         onTimePhaseClick = viewModel::onAdvanceTimePhase,
@@ -95,6 +105,8 @@ fun MainScreenContent(
     timePhase: GameTimePhase = GameTimePhase.Day,
     selectedTab: GameTab? = null,
     isTasksDialogOpen: Boolean = false,
+    isSceneReady: Boolean = true,
+    onSceneReady: () -> Unit = {},
     onBowlClick: () -> Unit = {},
     onMoodClick: () -> Unit = {},
     onTimePhaseClick: () -> Unit = {},
@@ -102,12 +114,25 @@ fun MainScreenContent(
     onTabSelected: (GameTab) -> Unit = {},
     onDismissTasksDialog: () -> Unit = {}
 ) {
+    // Синхронная плавная анимация появления интерфейса вместе с 3D сценой
+    val uiAlpha by animateFloatAsState(
+        targetValue = if (isSceneReady) 1.0f else 0.0f,
+        animationSpec = tween(
+            durationMillis = 600,
+            easing = LinearOutSlowInEasing
+        ),
+        label = "ui_fade_in"
+    )
+
+    val isInteractive = uiAlpha > 0.5f
+
     Box(
         modifier = modifier.fillMaxSize()
     ) {
         // --- 1. 3D СЦЕНА ФОНА (SceneView) С ПОВОРОТОМ КАМЕРЫ ПО ВСЕМУ ЭКРАНУ ---
         SceneBackground(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            onSceneReady = onSceneReady
         )
 
         // --- 2. ВЕРХНИЙ СТАТУС-БАР (HUD) КАК В РЕФЕРЕНСЕ ---
@@ -115,7 +140,8 @@ fun MainScreenContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .statusBarsPadding()
-                .padding(top = 10.dp),
+                .padding(top = 10.dp)
+                .graphicsLayer { alpha = uiAlpha },
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.Top
         ) {
@@ -131,7 +157,7 @@ fun MainScreenContent(
                     HungerIndicator(
                         hunger = hunger,
                         size = 155.dp,
-                        onClick = onBowlClick
+                        onClick = if (isInteractive) onBowlClick else ({})
                     )
 
                     // Медальон настроения (масштаб x1.5: 55 * 1.5 = 82.5 -> 83.dp)
@@ -139,7 +165,7 @@ fun MainScreenContent(
                         mood = mood,
                         size = 83.dp,
                         modifier = Modifier.padding(top = 2.dp),
-                        onClick = onMoodClick
+                        onClick = if (isInteractive) onMoodClick else ({})
                     )
                 }
 
@@ -177,6 +203,7 @@ fun MainScreenContent(
                         .clickable(
                             indication = null,
                             interactionSource = settingsInteraction,
+                            enabled = isInteractive,
                             onClick = onSettingsClick
                         ),
                     contentScale = ContentScale.Fit
@@ -187,7 +214,7 @@ fun MainScreenContent(
                     phase = timePhase,
                     height = 50.dp,
                     isDocked = true,
-                    onClick = onTimePhaseClick
+                    onClick = if (isInteractive) onTimePhaseClick else ({})
                 )
             }
         }
@@ -195,8 +222,10 @@ fun MainScreenContent(
         // --- 3. НИЖНЕЕ НАВИГАЦИОННОЕ МЕНЮ (GameBottomBar) ---
         GameBottomBar(
             selectedTab = selectedTab,
-            onTabSelected = onTabSelected,
-            modifier = Modifier.align(Alignment.BottomCenter)
+            onTabSelected = if (isInteractive) onTabSelected else ({}),
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .graphicsLayer { alpha = uiAlpha }
         )
 
         // --- 4. ДИАЛОГ СЮЖЕТНЫХ ЗАДАНИЙ ГЛАВЫ (TasksDialog) ---

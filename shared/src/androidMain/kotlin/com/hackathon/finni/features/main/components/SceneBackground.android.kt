@@ -36,7 +36,8 @@ import kotlin.math.sin
 actual fun SceneBackground(
     modifier: Modifier,
     modelPath: String,
-    hdrPath: String
+    hdrPath: String,
+    onSceneReady: () -> Unit
 ) {
     val engine = rememberEngine()
     val modelLoader = rememberModelLoader(engine)
@@ -109,6 +110,19 @@ actual fun SceneBackground(
     var framesRenderedAfterAttach by remember { mutableIntStateOf(0) }
     var isSceneReady by remember { mutableStateOf(false) }
 
+    fun notifySceneReady() {
+        if (!isSceneReady) {
+            isSceneReady = true
+            onSceneReady()
+        }
+    }
+
+    LaunchedEffect(isSceneReady) {
+        if (isSceneReady) {
+            onSceneReady()
+        }
+    }
+
     val overlayAlpha by animateFloatAsState(
         targetValue = if (isSceneReady) 0.0f else 1.0f,
         animationSpec = tween(
@@ -146,7 +160,7 @@ actual fun SceneBackground(
             } catch (e: Exception) {
                 // ignore
             }
-            isSceneReady = true
+            notifySceneReady()
         }
     }
 
@@ -154,7 +168,7 @@ actual fun SceneBackground(
     LaunchedEffect(modelNode) {
         if (modelNode != null && !isSceneReady) {
             delay(1500)
-            isSceneReady = true
+            notifySceneReady()
         }
     }
 
@@ -192,7 +206,7 @@ actual fun SceneBackground(
                 if (isModelAddedToScene && !isSceneReady) {
                     framesRenderedAfterAttach++
                     if (framesRenderedAfterAttach >= 25) {
-                        isSceneReady = true
+                        notifySceneReady()
                     }
                 }
             }

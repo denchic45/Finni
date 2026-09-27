@@ -7,7 +7,7 @@ import com.hackathon.finni.core.presentation.handlers.LoadingHandler
 import com.hackathon.finni.core.presentation.handlers.LoadingHandlerImpl
 import com.hackathon.finni.core.presentation.handlers.RefreshHandler
 import com.hackathon.finni.core.presentation.handlers.RefreshHandlerImpl
-import com.hackathon.finni.core.ui.navigation.Splash
+import com.hackathon.finni.core.ui.navigation.Home
 import com.hackathon.finni.core.ui.navigation.router.Router
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -22,7 +22,7 @@ typealias ApplicationScope = CoroutineScope
 val coreModule = module {
     single<ApplicationScope> { CoroutineScope(SupervisorJob() + Dispatchers.Default) }
 //    factory { (tag: String) -> Logger.withTag(tag) }
-    single { Router(Splash) }
+    single { Router(Home) }
     singleOf(::EventHandler)
     singleOf(::LoadingHandlerImpl) { bind<LoadingHandler>() }
     singleOf(::ErrorHandlerImpl) { bind<ErrorHandler>() }

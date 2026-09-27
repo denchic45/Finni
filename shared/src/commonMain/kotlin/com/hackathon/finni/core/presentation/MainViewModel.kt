@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.stateIn
 
 class MainViewModel(
     private val router: Router,
-    private val appSettingsStorage: AppSettingsStorage
+    appSettingsStorage: AppSettingsStorage
 ) : ViewModel() {
 
 

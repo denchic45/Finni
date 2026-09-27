@@ -7,9 +7,6 @@ import com.hackathon.finni.core.ui.navigation.router.TopLevelRoute
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object Splash : TopLevelRoute
-
-@Serializable
 data object Home : TopLevelRoute
 
 @Serializable

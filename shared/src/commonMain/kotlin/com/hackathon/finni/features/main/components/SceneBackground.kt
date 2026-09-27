@@ -11,10 +11,12 @@ import androidx.compose.ui.Modifier
  * @param modifier Модификатор размера и расположения.
  * @param modelPath Путь к 3D-модели (в assets).
  * @param hdrPath Путь к карте освещения HDR (в assets).
+ * @param onSceneReady Колбэк, сигнализирующий о готовности 3D сцены (после компиляции шейдеров и первого рендера).
  */
 @Composable
 expect fun SceneBackground(
     modifier: Modifier = Modifier,
     modelPath: String = "Scene.glb",
-    hdrPath: String = "studio_small_09_1k.hdr"
+    hdrPath: String = "studio_small_09_1k.hdr",
+    onSceneReady: () -> Unit = {}
 )

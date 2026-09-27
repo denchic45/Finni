@@ -3,6 +3,7 @@ package com.hackathon.finni.features.main.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
@@ -10,8 +11,12 @@ import androidx.compose.ui.graphics.Color
 actual fun SceneBackground(
     modifier: Modifier,
     modelPath: String,
-    hdrPath: String
+    hdrPath: String,
+    onSceneReady: () -> Unit
 ) {
+    LaunchedEffect(Unit) {
+        onSceneReady()
+    }
     Box(
         modifier = modifier.background(Color(0xFFD9D9D9))
     )
