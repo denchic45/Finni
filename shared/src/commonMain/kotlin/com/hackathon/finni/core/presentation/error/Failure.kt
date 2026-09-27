@@ -15,10 +15,6 @@ import com.hackathon.finni.api.error.UserError
 import com.hackathon.finni.core.network.isNetworkIssue
 import com.hackathon.finni.core.presentation.model.UiImage
 import com.hackathon.finni.core.presentation.model.UiText
-import com.hackathon.finni.features.auth.toAuthIcon
-import com.hackathon.finni.features.auth.toAuthTitle
-import com.hackathon.finni.features.users.toUserIcon
-import com.hackathon.finni.features.users.toUserTitle
 import com.hackathon.finni.resources.Res
 import com.hackathon.finni.resources.common_error_bad_gateway_title
 import com.hackathon.finni.resources.common_error_bad_request_title
@@ -94,14 +90,14 @@ fun Failure.resolveTitle(): UiText {
         Timeout -> UiText.Resource(Res.string.common_error_timeout_title)
         is ApiFailure -> when (val e = this.error) {
             is NotFoundError -> UiText.Resource(Res.string.common_error_not_found_title)
-            is UserError -> e.toUserTitle()
-            is AuthError -> e.toAuthTitle()
+            is UserError -> UiText.Dynamic("Ошибка пользователя")
+            is AuthError -> UiText.Dynamic("Ошибка авторизации")
             is BadRequestError.General -> UiText.Resource(Res.string.common_error_bad_request_title)
             is InvalidRequest -> UiText.Resource(Res.string.common_error_invalid_request_title)
             is UnprocessableEntityError -> UiText.Resource(Res.string.common_error_unprocessable_entity_title)
             is BadGatewayError -> UiText.Resource(Res.string.common_error_bad_gateway_title)
             is InternalServerError -> UiText.Resource(Res.string.common_error_internal_server_title)
-            is ProjectNotFound -> UiText.Dynamic("Проект не найден")
+            is ProjectNotFound -> UiText.Dynamic("Не найдено")
             is FailedValidation -> UiText.Dynamic("Ошибка валидации")
             is UnknownError -> UiText.Resource(Res.string.common_error_unknown_title)
         }
@@ -118,10 +114,9 @@ fun Failure.resolveIcon(): UiImage {
         is ThrowableFailure -> UiImage.Resource(Res.drawable.ic_bug_report)
 
         // --- 2. Разбор серверных ошибок (ApiFailure) ---
-        is ApiFailure -> when (val e = this.error) {
+        is ApiFailure -> when (this.error) {
             // Маркерные бизнес-интерфейсы
-            is AuthError -> e.toAuthIcon()
-            is UserError -> e.toUserIcon()
+            is AuthError, is UserError -> UiImage.Resource(Res.drawable.ic_warning)
             is NotFoundError -> UiImage.Resource(Res.drawable.ic_search)
             is FailedValidation -> UiImage.Resource(Res.drawable.ic_warning)
 

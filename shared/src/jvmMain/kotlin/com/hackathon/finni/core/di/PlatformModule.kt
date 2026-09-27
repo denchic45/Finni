@@ -1,9 +1,6 @@
 package com.hackathon.finni.core.di
 
 import androidx.datastore.core.DataStore
-import androidx.datastore.core.DataStoreFactory
-import androidx.datastore.core.okio.OkioSerializer
-import androidx.datastore.core.okio.OkioStorage
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.room3.Room
@@ -16,13 +13,10 @@ import com.hackathon.finni.core.network.NetworkObserver
 import com.hackathon.finni.core.presentation.handlers.UrlHandler
 import com.hackathon.finni.core.ui.components.ToastManager
 import com.hackathon.finni.data.database.AppDatabase
-import com.hackathon.finni.data.storage.AuthSettings
-import okio.FileSystem
 import okio.Path.Companion.toPath
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import java.io.File
 
@@ -41,20 +35,6 @@ actual val platformModule: Module = module {
     }
     single<Aead> { Tink.createAead() }
     singleOf(::JvmCryptoManager)
-    single<DataStore<AuthSettings>>(named("auth_datastore")) {
-        DataStoreFactory.create(
-            storage = OkioStorage(
-                fileSystem = FileSystem.SYSTEM,
-                serializer = get<OkioSerializer<AuthSettings>>(),
-                producePath = {
-                    File(
-                        System.getProperty("java.io.tmpdir"),
-                        "auth_settings.pb"
-                    ).absolutePath.toPath()
-                }
-            )
-        )
-    }
     singleOf(::UrlHandler)
     singleOf(::ToastManager)
     singleOf(::AppLifecycleObserver)

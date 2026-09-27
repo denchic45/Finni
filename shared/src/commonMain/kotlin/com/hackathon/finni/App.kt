@@ -27,7 +27,6 @@ import com.hackathon.finni.core.ui.components.AppEventHandlerHost
 import com.hackathon.finni.core.ui.components.LoadingHost
 import com.hackathon.finni.core.ui.navigation.AppNavDisplay
 import com.hackathon.finni.core.ui.navigation.Confirmation
-import com.hackathon.finni.core.ui.navigation.GameUiShowcase
 import com.hackathon.finni.core.ui.navigation.Home
 import com.hackathon.finni.core.ui.navigation.OverlayImages
 import com.hackathon.finni.core.ui.navigation.SimpleOverlaySceneStrategy
@@ -37,7 +36,6 @@ import com.hackathon.finni.core.ui.navigation.router.pop
 import com.hackathon.finni.core.ui.navigation.router.push
 import com.hackathon.finni.core.ui.overlay.OverlayImagesScreen
 import com.hackathon.finni.data.storage.ThemeMode
-import com.hackathon.finni.features.game_ui_showcase.GameUiShowcaseScreen
 import com.hackathon.finni.features.main.MainScreen
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -123,11 +121,6 @@ private fun AppNavigation(
             }
             entry<OverlayImages>(metadata = SimpleOverlaySceneStrategy.overlay()) { images: OverlayImages ->
                 OverlayImagesScreen(images.urls, images.initialIndex)
-            }
-            entry<GameUiShowcase> {
-                GameUiShowcaseScreen(
-                    onBack = onBack
-                )
             }
         }
     )

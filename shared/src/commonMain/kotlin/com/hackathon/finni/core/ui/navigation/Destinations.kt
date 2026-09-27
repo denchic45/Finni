@@ -18,9 +18,6 @@ data class Confirmation(val title: String, val text: String? = null) : Modal
 @Serializable
 data class OverlayImages(val urls: List<String>, val initialIndex: Int) : Modal
 
-@Serializable
-data object GameUiShowcase : Destination
-
 // Экраны игровых разделов нижнего меню (GameTab)
 @Serializable
 data object TasksScreen : Destination

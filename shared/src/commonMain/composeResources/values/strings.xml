@@ -19,49 +19,6 @@
     <string name="common_error_bad_gateway_title">Сервер недоступен</string>
     <string name="common_error_bad_gateway_msg">Сервер временно недоступен</string>
 
-    <!-- Navigation -->
-    <string name="common_nav_auth">Авторизация</string>
-    <string name="common_nav_notes">Заметки</string>
-    <string name="common_nav_projects">Проекты</string>
-    <string name="common_nav_tags">Теги</string>
-
-    <!-- Auth Feature -->
-    <string name="auth_title">Авторизация</string>
-    <string name="auth_subtitle">Введите почту и пароль для входа</string>
-    <string name="auth_email_label">Email</string>
-    <string name="auth_password_label">Пароль</string>
-    <string name="auth_email_placeholder">example@domain.com</string>
-    <string name="auth_email_error_empty">Введите адрес электронной почты</string>
-    <string name="auth_email_error_invalid">Некорректный формат email</string>
-    <string name="auth_password_error_empty">Введите пароль</string>
-    <string name="auth_password_error_short">Пароль должен содержать не менее 6 символов</string>
-    <string name="auth_action_toggle_password_visibility">Переключить видимость пароля</string>
-    <string name="auth_error_title">Ошибка авторизации</string>
-    <string name="auth_error_unauthorized_msg">Для выполнения этого действия требуется авторизация</string>
-    <string name="auth_error_credentials_msg">Неверный логин или пароль</string>
-    <string name="auth_error_session_expired_msg">Ошибка авторизации. Пожалуйста, перезайдите в приложение</string>
-    <string name="auth_action_login">Войти</string>
-    <string name="auth_no_account_prompt">Нет аккаунта?</string>
-    <string name="auth_action_register">Зарегистрироваться</string>
-
-    <!-- Register Feature -->
-    <string name="register_title">Регистрация</string>
-    <string name="register_subtitle">Создайте аккаунт для продолжения</string>
-    <string name="register_nickname_label">Псевдоним</string>
-    <string name="register_nickname_placeholder">username</string>
-    <string name="register_nickname_error_empty">Введите никнейм</string>
-    <string name="register_confirm_password_label">Повторите пароль</string>
-    <string name="register_confirm_password_error_empty">Повторите пароль</string>
-    <string name="register_confirm_password_error_mismatch">Пароли не совпадают</string>
-    <string name="register_already_have_account_prompt">Уже есть аккаунт?</string>
-    <string name="register_action_login">Войти</string>
-    <string name="register_action_submit">Зарегистрироваться</string>
-
-    <!-- User Feature -->
-    <string name="user_error_title">Ошибка аккаунта</string>
-    <string name="user_error_not_found_title">Пользователь не найден</string>
-    <string name="user_error_not_found_msg">Возможно данного пользователя не существует, либо он был удален</string>
-    <string name="user_error_email_already_in_use_msg">Такая почта уже используется</string>
 
     <!-- Common Actions -->
     <string name="common_action_retry">Повторить</string>

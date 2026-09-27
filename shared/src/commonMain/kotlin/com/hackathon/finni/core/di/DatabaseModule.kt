@@ -10,9 +10,8 @@ val databaseModule = module {
         builder.build()
     }
 
-    single { get<AppDatabase>().projectDao() }
-    single { get<AppDatabase>().taskDao() }
-    single { get<AppDatabase>().noteDao() }
-    single { get<AppDatabase>().tagDao() }
     single { get<AppDatabase>().syncQueueDao() }
+    single { get<AppDatabase>().petStateDao() }
+    single { get<AppDatabase>().accountDao() }
+    single { get<AppDatabase>().levelProgressDao() }
 }

@@ -14,9 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hackathon.finni.core.theme.comfortaaFontFamily
 import com.hackathon.finni.core.ui.components.GameDialog
 import com.hackathon.finni.features.levels.components.LevelsTopBar
@@ -32,29 +31,54 @@ import com.hackathon.finni.features.levels.components.ZigzagRoadMap
 import com.hackathon.finni.features.levels.model.LevelItem
 import com.hackathon.finni.features.levels.model.LevelStatus
 import com.hackathon.finni.features.levels.model.LevelsData
+import org.koin.compose.viewmodel.koinViewModel
 import kotlin.math.roundToInt
 
 /**
- * Экран уровней (LevelsScreen):
- * - Список уровней на извилистой мощеной дороге в виде зигзага (как в референсе)
- * - Верхний глянцевый бар с кнопкой «Домой» и балансом монет
+ * Экран уровней (LevelsScreen), подключенный к [LevelsViewModel]:
+ * - Список уровней на извилистой мощеной дороге в виде зигзага
+ * - Верхний глянцевый бар с кнопкой «Домой»/крестиком и балансом монет
  * - Интерактивные узлы: пройденные со звездами, текущий с парящим пином Финни, заблокированные с замками
- * - Нижнее меню с активной вкладкой «Уровни»
  * - Авто-фокусировка на текущем уровне при открытии
  */
 @Composable
 fun LevelsScreen(
+    modifier: Modifier = Modifier,
+    viewModel: LevelsViewModel = koinViewModel(),
+    onHomeClick: () -> Unit = {}
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LevelsScreenContent(
+        levels = uiState.levels,
+        coins = uiState.coins,
+        selectedLevelForModal = uiState.selectedLevelForModal,
+        onHomeClick = {
+            viewModel.onHomeClick()
+            onHomeClick()
+        },
+        onLevelClick = viewModel::onLevelClick,
+        onDismissModal = viewModel::onDismissModal,
+        onStartLevel = { level ->
+            viewModel.onCompleteLevel(level)
+        },
+        modifier = modifier
+    )
+}
+
+@Composable
+fun LevelsScreenContent(
     levels: List<LevelItem> = LevelsData.defaultLevels,
     coins: Int = 1150,
+    selectedLevelForModal: LevelItem? = null,
     onHomeClick: () -> Unit = {},
     onLevelClick: (LevelItem) -> Unit = {},
+    onDismissModal: () -> Unit = {},
+    onStartLevel: (LevelItem) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val scrollState = rememberScrollState()
     val density = LocalDensity.current
-
-    // Выбранный уровень для показа модального диалога
-    var selectedLevelForModal by remember { mutableStateOf<LevelItem?>(null) }
 
     // Автоматическая прокрутка к текущему уровню при запуске
     val currentLevelIndex = remember(levels) {
@@ -87,30 +111,26 @@ fun LevelsScreen(
         ) {
             ZigzagRoadMap(
                 levels = levels,
-                onLevelClick = { level ->
-                    selectedLevelForModal = level
-                    onLevelClick(level)
-                },
+                onLevelClick = onLevelClick,
                 paddingBottom = 60.dp,
                 modifier = Modifier.fillMaxWidth()
             )
         }
 
-        // 2. Верхняя глянцевая панель (LevelsTopBar с крестиком закрытия и кнопкой Домой)
+        // 2. Верхняя глянцевая панель (LevelsTopBar с крестиком закрытия и монетами)
         LevelsTopBar(
             coins = coins,
             onHomeClick = onHomeClick,
             modifier = Modifier.align(Alignment.TopCenter)
         )
 
-        // 3. Диалог информации об уровне
+        // 3. Модальный диалог подробностей выбранного уровня
         selectedLevelForModal?.let { level ->
-            LevelInfoDialog(
+            LevelDetailsDialog(
                 level = level,
-                onDismiss = { selectedLevelForModal = null },
+                onDismiss = onDismissModal,
                 onStart = {
-                    selectedLevelForModal = null
-                    // Запуск выполнения задания уровня
+                    onStartLevel(level)
                 }
             )
         }
@@ -118,24 +138,24 @@ fun LevelsScreen(
 }
 
 /**
- * Диалог информации об уровне в стилистике GameDialog
+ * Модальный диалог карточки уровня.
  */
 @Composable
-private fun LevelInfoDialog(
+private fun LevelDetailsDialog(
     level: LevelItem,
     onDismiss: () -> Unit,
     onStart: () -> Unit
 ) {
     GameDialog(
-        title = "УРОВЕНЬ ${level.number}",
         visible = true,
+        title = "УРОВЕНЬ ${level.number}",
         onDismissRequest = onDismiss
     ) {
         Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 12.dp, horizontal = 12.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(vertical = 8.dp)
         ) {
             when (level.status) {
                 LevelStatus.LOCKED -> {

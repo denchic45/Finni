@@ -1,6 +1,5 @@
 package com.hackathon.finni.core.presentation.handlers
 
-import com.hackathon.finni.api.error.UnauthorizedError
 import com.hackathon.finni.core.presentation.error.ActionErrorDisplayType
 import com.hackathon.finni.core.presentation.error.UiError
 import com.hackathon.finni.core.presentation.model.UiImage
@@ -8,7 +7,6 @@ import com.hackathon.finni.core.presentation.model.UiText
 import com.hackathon.finni.core.ui.components.ToastDuration
 import com.hackathon.finni.core.ui.navigation.router.Router
 import com.hackathon.finni.resources.Res
-import com.hackathon.finni.resources.auth_action_login
 import com.hackathon.finni.resources.common_action_cancel
 import com.hackathon.finni.resources.common_action_ok
 import com.hackathon.finni.resources.common_action_retry
@@ -38,10 +36,6 @@ class EventHandler(private val router: Router) {
         onRetry: (() -> Unit)? = null
     ): UIEvent {
         val defaultAction = when {
-            (uiError.origin as? com.hackathon.finni.core.presentation.error.ApiFailure)?.error is UnauthorizedError -> UIEvent.Action(
-                UiText.Resource(Res.string.auth_action_login)
-            ) { router.updateTabs { mapOf() } }
-
             onRetry != null -> UIEvent.Action(
                 UiText.Resource(Res.string.common_action_retry),
                 onRetry
