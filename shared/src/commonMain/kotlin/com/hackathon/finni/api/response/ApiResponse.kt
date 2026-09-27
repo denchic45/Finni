@@ -12,8 +12,6 @@ import io.ktor.http.isSuccess
 typealias ApiResult<T> = Either<ApiError, T>
 typealias EmptyApiResult = ApiResult<Unit>
 
-class ApiException(val error: ApiError) : Exception(error.message)
-
 suspend inline fun <reified T> HttpResponse.toResult(): ApiResult<T> {
     return try {
         if (status.isSuccess()) {

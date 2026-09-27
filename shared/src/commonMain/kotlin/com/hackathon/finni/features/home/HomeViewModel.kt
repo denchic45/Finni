@@ -2,7 +2,6 @@ package com.hackathon.finni.features.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hackathon.finni.api.note.model.NoteId
 import com.hackathon.finni.api.note.model.NoteResponse
 import com.hackathon.finni.core.paginator.PageState
 import com.hackathon.finni.core.paginator.Paginator
@@ -10,7 +9,6 @@ import com.hackathon.finni.core.paginator.PaginatorUIState
 import com.hackathon.finni.core.presentation.handlers.ErrorHandler
 import com.hackathon.finni.core.presentation.handlers.RefreshHandler
 import com.hackathon.finni.core.ui.navigation.GameUiShowcase
-import com.hackathon.finni.core.ui.navigation.NoteEditor
 import com.hackathon.finni.core.ui.navigation.router.ContextSelectedResult
 import com.hackathon.finni.core.ui.navigation.router.Router
 import com.hackathon.finni.core.ui.navigation.router.TagsSelectedResult
@@ -45,12 +43,14 @@ class HomeViewModel(
             .flatMapLatest { it.uiState }
             .bindToRefresh()
             .onEach { pState ->
-                val allNotes = (pState as? PaginatorUIState.Content<NoteResponse>)?.items ?: emptyList()
+                val allNotes =
+                    (pState as? PaginatorUIState.Content<NoteResponse>)?.items ?: emptyList()
                 val isPaginatorLoading = pState is PaginatorUIState.Loading ||
                         (pState as? PaginatorUIState.Content<*>)?.appendState is PageState.Loading
 
                 val append = (pState as? PaginatorUIState.Content<*>)?.appendState ?: PageState.None
-                val prepend = (pState as? PaginatorUIState.Content<*>)?.prependState ?: PageState.None
+                val prepend =
+                    (pState as? PaginatorUIState.Content<*>)?.prependState ?: PageState.None
 
                 _uiState.update { current ->
                     current.copy(
@@ -101,13 +101,6 @@ class HomeViewModel(
         loadNotes(initial = false)
     }
 
-    fun onNoteClick(noteId: NoteId) {
-        router.push(NoteEditor(noteId))
-    }
-
-    fun onCreateNoteClick() {
-        router.push(NoteEditor(noteId = null))
-    }
 
     fun onOpenGameUiShowcase() {
         router.push(GameUiShowcase)

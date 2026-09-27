@@ -2,13 +2,10 @@ package com.hackathon.finni.core.ui.components.resource
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Snackbar
@@ -34,10 +31,6 @@ import com.hackathon.finni.core.ui.components.EmptyContent
 import com.hackathon.finni.core.ui.extension.getString
 import com.hackathon.finni.core.ui.extension.getStringResource
 import com.hackathon.finni.core.ui.extension.rememberPainter
-import com.hackathon.finni.core.ui.navigation.Auth
-import com.hackathon.finni.core.ui.navigation.router.Router
-import com.hackathon.finni.core.ui.navigation.router.push
-import org.koin.compose.koinInject
 
 
 @Composable
@@ -117,26 +110,5 @@ fun DefaultFailedContent(
                 )
             }
         } else null,
-        action = if (error.origin is ApiFailure && error.origin.error is UnauthorizedError) {
-            {
-                val router = koinInject<Router>()
-                Button(onClick = { router.push(Auth) }) {
-                    Text("Войти")
-                }
-            }
-        } else onRetry?.let {
-            {
-                Column(Modifier.height(48.dp).padding(top = MaterialTheme.spacing.small)) {
-                    if (isRetrying == false)
-                        Button(
-                            onClick = onRetry,
-                            modifier = Modifier
-                        ) { Text("Повторить") }
-                    else {
-                        CircularProgressIndicator()
-                    }
-                }
-            }
-        }
     )
 }

@@ -32,7 +32,8 @@ import org.jetbrains.compose.resources.painterResource
 enum class GameTimePhase(val title: String) {
     Morning("Утро"),
     Day("День"),
-    Evening("Вечер")
+    Evening("Вечер"),
+    Night("Ночь")
 }
 
 /**

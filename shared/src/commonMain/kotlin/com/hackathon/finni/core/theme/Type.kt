@@ -7,6 +7,11 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.hackathon.finni.resources.Res
+import com.hackathon.finni.resources.comfortaa_bold
+import com.hackathon.finni.resources.comfortaa_light
+import com.hackathon.finni.resources.comfortaa_medium
+import com.hackathon.finni.resources.comfortaa_regular
+import com.hackathon.finni.resources.comfortaa_semibold
 import com.hackathon.finni.resources.inter_bold
 import com.hackathon.finni.resources.inter_light
 import com.hackathon.finni.resources.inter_medium
@@ -16,6 +21,16 @@ import com.hackathon.finni.resources.roboto_bold
 import com.hackathon.finni.resources.roboto_medium
 import com.hackathon.finni.resources.roboto_regular
 import org.jetbrains.compose.resources.Font
+
+val comfortaaFontFamily: FontFamily
+    @Composable
+    get() = FontFamily(
+        Font(Res.font.comfortaa_light, FontWeight.Light),
+        Font(Res.font.comfortaa_regular, FontWeight.Normal),
+        Font(Res.font.comfortaa_medium, FontWeight.Medium),
+        Font(Res.font.comfortaa_semibold, FontWeight.SemiBold),
+        Font(Res.font.comfortaa_bold, FontWeight.Bold),
+    )
 
 @Composable
 fun getAppTypography(): Typography {

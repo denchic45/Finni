@@ -119,13 +119,13 @@ fun HomeScreen(
                 )
             },
             bottomBar = {
-                HomeBottomToolbar(
-                    onContextClick = viewModel::onSelectContextClick,
-                    onReminderToggle = viewModel::onToggleReminderOnly,
-                    onTagsClick = viewModel::onSelectTagsClick,
-                    onCreateClick = viewModel::onCreateNoteClick,
-                    isReminderFilterActive = uiState.filter.hasReminderOnly
-                )
+//                HomeBottomToolbar(
+//                    onContextClick = viewModel::onSelectContextClick,
+//                    onReminderToggle = viewModel::onToggleReminderOnly,
+//                    onTagsClick = viewModel::onSelectTagsClick,
+//                    onCreateClick = viewModel::onCreateNoteClick,
+//                    isReminderFilterActive = uiState.filter.hasReminderOnly
+//                )
             }
         ) { paddingValues ->
             AppPullToRefreshBox(
@@ -144,14 +144,14 @@ fun HomeScreen(
                         onTagsClick = viewModel::onSelectTagsClick
                     )
 
-                    NotesGrid(
-                        pinnedNotes = uiState.pinnedNotes,
-                        otherNotes = uiState.otherNotes,
-                        onNoteClick = viewModel::onNoteClick,
-                        paginator = paginator,
-                        appendState = uiState.appendState,
-                        prependState = uiState.prependState
-                    )
+//                    NotesGrid(
+//                        pinnedNotes = uiState.pinnedNotes,
+//                        otherNotes = uiState.otherNotes,
+//                        onNoteClick = viewModel::onNoteClick,
+//                        paginator = paginator,
+//                        appendState = uiState.appendState,
+//                        prependState = uiState.prependState
+//                    )
                 }
             }
 

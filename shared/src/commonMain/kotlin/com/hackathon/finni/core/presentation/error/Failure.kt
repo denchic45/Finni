@@ -12,7 +12,6 @@ import com.hackathon.finni.api.error.ProjectNotFound
 import com.hackathon.finni.api.error.UnknownError
 import com.hackathon.finni.api.error.UnprocessableEntityError
 import com.hackathon.finni.api.error.UserError
-import com.hackathon.finni.api.response.ApiException
 import com.hackathon.finni.core.network.isNetworkIssue
 import com.hackathon.finni.core.presentation.model.UiImage
 import com.hackathon.finni.core.presentation.model.UiText
@@ -62,7 +61,6 @@ data class ThrowableFailure(
 
 fun Throwable.asFailure(): Failure = when (this) {
     is FailureException -> failure
-    is ApiException -> ApiFailure(error)
     else -> {
         if (isNetworkIssue()) NoConnection
         else ThrowableFailure(this)

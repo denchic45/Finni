@@ -26,25 +26,19 @@ import com.hackathon.finni.core.theme.AppTheme
 import com.hackathon.finni.core.ui.components.AppEventHandlerHost
 import com.hackathon.finni.core.ui.components.LoadingHost
 import com.hackathon.finni.core.ui.navigation.AppNavDisplay
-import com.hackathon.finni.core.ui.navigation.Auth
 import com.hackathon.finni.core.ui.navigation.Confirmation
 import com.hackathon.finni.core.ui.navigation.GameUiShowcase
 import com.hackathon.finni.core.ui.navigation.Home
-import com.hackathon.finni.core.ui.navigation.NoteEditor
 import com.hackathon.finni.core.ui.navigation.OverlayImages
-import com.hackathon.finni.core.ui.navigation.ProjectEditor
-import com.hackathon.finni.core.ui.navigation.Register
 import com.hackathon.finni.core.ui.navigation.SimpleOverlaySceneStrategy
 import com.hackathon.finni.core.ui.navigation.Splash
-import com.hackathon.finni.core.ui.navigation.TagEditor
 import com.hackathon.finni.core.ui.navigation.router.Destination
+import com.hackathon.finni.core.ui.navigation.router.pop
+import com.hackathon.finni.core.ui.navigation.router.push
 import com.hackathon.finni.core.ui.overlay.OverlayImagesScreen
 import com.hackathon.finni.data.storage.ThemeMode
-import com.hackathon.finni.features.auth.AuthScreen
-import com.hackathon.finni.features.auth.RegisterScreen
 import com.hackathon.finni.features.game_ui_showcase.GameUiShowcaseScreen
-import com.hackathon.finni.features.home.HomeScreen
-import com.hackathon.finni.features.noteeditor.NoteEditorScreen
+import com.hackathon.finni.features.main.MainScreen
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -80,6 +74,7 @@ private fun AppNavigation(
     backStack: List<Destination>,
     onBack: () -> Unit
 ) {
+    val router: com.hackathon.finni.core.ui.navigation.router.Router = org.koin.compose.koinInject()
     val simpleOverlaySceneStrategy = SimpleOverlaySceneStrategy<Destination>()
     val listDetailStrategy = rememberListDetailSceneStrategy<Destination>()
     val supportingPaneSceneStrategy = rememberSupportingPaneSceneStrategy<Destination>()
@@ -102,27 +97,24 @@ private fun AppNavigation(
                     CircularProgressIndicator()
                 }
             }
-            entry<Auth> {
-                AuthScreen()
-            }
-            entry<Register> {
-                RegisterScreen()
-            }
+
             entry<Home>(metadata = ListDetailSceneStrategy.listPane()) {
-                HomeScreen()
+                MainScreen(
+                    onTabSelected = { tab ->
+                        when (tab) {
+                            com.hackathon.finni.core.ui.components.game.GameTab.Levels -> {
+                                router.push(com.hackathon.finni.core.ui.navigation.LevelsScreen)
+                            }
+
+                            else -> {}
+                        }
+                    }
+                )
             }
-            entry<NoteEditor>(metadata = ListDetailSceneStrategy.detailPane()) { details: NoteEditor ->
-                NoteEditorScreen(details.noteId)
-            }
-            entry<ProjectEditor>(metadata = SimpleOverlaySceneStrategy.overlay()) { editor: ProjectEditor ->
-                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text("Project Editor: ${editor.projectId}")
-                }
-            }
-            entry<TagEditor>(metadata = SimpleOverlaySceneStrategy.overlay()) { editor: TagEditor ->
-                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text("Tag Editor: ${editor.tagId}")
-                }
+            entry<com.hackathon.finni.core.ui.navigation.LevelsScreen> {
+                com.hackathon.finni.features.levels.LevelsScreen(
+                    onHomeClick = { router.pop() }
+                )
             }
             entry<Confirmation>(metadata = SimpleOverlaySceneStrategy.overlay()) { conf: Confirmation ->
                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {

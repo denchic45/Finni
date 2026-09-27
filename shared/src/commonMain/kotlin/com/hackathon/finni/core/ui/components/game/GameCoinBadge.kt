@@ -51,31 +51,42 @@ fun GameCoinBadge(
             .then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier),
         contentAlignment = Alignment.CenterStart
     ) {
-        // Фоновая кремовая капсула
+        // Фоновая капсула (утопленный карамельный слот в золотисто-белой рамке)
         Box(
             modifier = Modifier
                 .padding(start = coinSize * 0.42f)
                 .height(height)
-                .shadow(elevation = 3.dp, shape = pillShape)
+                .shadow(elevation = 4.dp, shape = pillShape)
+                .border(
+                    width = 3.dp,
+                    color = Color.White,
+                    shape = pillShape
+                )
+                .border(
+                    width = 1.5.dp,
+                    brush = Brush.verticalGradient(
+                        listOf(
+                            Color(0xFFFFDF7A),
+                            Color(0xFFE5A128),
+                            Color(0xFFBF7A12)
+                        )
+                    ),
+                    shape = pillShape
+                )
                 .clip(pillShape)
                 .background(
                     Brush.verticalGradient(
                         listOf(
-                            colors.surfaceCreamLight,
-                            colors.surfaceCreamBase,
-                            colors.surfaceCreamDark
+                            Color(0xFFA87D4F), // Легкая внутренняя тень сверху
+                            Color(0xFFC79E70),
+                            Color(0xFFD7B186)
                         )
                     )
-                )
-                .border(
-                    width = 2.5.dp,
-                    color = colors.borderDark,
-                    shape = pillShape
                 )
                 .padding(start = coinSize * 0.55f, end = 16.dp),
             contentAlignment = Alignment.Center
         ) {
-            // Текст суммы с анимацией смены числа
+            // Текст суммы с анимацией смены числа (белые буквы с шоколадной обводкой как на референсе)
             AnimatedContent(
                 targetState = coins,
                 transitionSpec = {
@@ -91,11 +102,12 @@ fun GameCoinBadge(
             ) { targetCoins ->
                 GameText(
                     text = targetCoins.toString(),
-                    color = Color(0xFF4A250E),
-                    strokeColor = null,
-                    shadowColor = null,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.ExtraBold
+                    color = Color.White,
+                    strokeColor = Color(0xFF3E1C08),
+                    strokeWidth = 3f,
+                    shadowColor = Color(0x66000000),
+                    fontSize = 19.sp,
+                    fontWeight = FontWeight.Black
                 )
             }
         }

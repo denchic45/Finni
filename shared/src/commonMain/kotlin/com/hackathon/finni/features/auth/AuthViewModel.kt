@@ -1,17 +1,12 @@
 package com.hackathon.finni.features.auth
 
 import androidx.lifecycle.ViewModel
-import com.hackathon.finni.api.profile.model.LoginRequest
 import com.hackathon.finni.core.presentation.handlers.ErrorHandler
-import com.hackathon.finni.core.presentation.handlers.LoadingMode
 import com.hackathon.finni.core.presentation.model.UiText
 import com.hackathon.finni.core.presentation.validator.Operator
 import com.hackathon.finni.core.presentation.validator.compositeValidator
 import com.hackathon.finni.core.presentation.validator.isEmail
-import com.hackathon.finni.core.ui.navigation.Register
 import com.hackathon.finni.core.ui.navigation.router.Router
-import com.hackathon.finni.core.ui.navigation.router.push
-import com.hackathon.finni.data.service.AuthService
 import com.hackathon.finni.resources.Res
 import com.hackathon.finni.resources.auth_email_error_empty
 import com.hackathon.finni.resources.auth_email_error_invalid
@@ -36,7 +31,6 @@ data class AuthInput(
 )
 
 class AuthViewModel(
-    private val authService: AuthService,
     private val errorHandler: ErrorHandler,
     private val router: Router
 ) : ViewModel(), ErrorHandler by errorHandler {
@@ -111,23 +105,9 @@ class AuthViewModel(
     }
 
     fun onRegisterClick() {
-        router.push(Register)
     }
 
     fun onLoginClick() {
-        formValidator.onValid {
-            val input = _uiState.value.input
-            launchSafe(loadingMode = LoadingMode.None) {
-                _uiState.update { it.copy(isLoading = true) }
-                val result = authService.login(
-                    LoginRequest(
-                        email = input.email.trim(),
-                        password = input.password
-                    )
-                )
-                _uiState.update { it.copy(isLoading = false) }
-                result
-            }
-        }
+
     }
 }
