@@ -1,4 +1,27 @@
 <resources>
+    <string name="task_robot_title">Сломанный робот</string>
+    <string name="task_robot_story">У любимого робота отвалилась деталь. Мастерская починит его за 20 монет из копилки мечты. Можно отремонтировать сейчас или подождать свободных карманных денег</string>
+    <string name="task_robot_repair">Починить сейчас — 20 монет из копилки</string>
+    <string name="task_robot_wait">Отложить ремонт — бесплатно</string>
+    <string name="task_robot_repair_feedback">Робот снова работает, а в копилке стало на 20 монет меньше. Мечта подождёт немного дольше. В следующий раз можно запланировать ремонт из карманных денег</string>
+    <string name="task_robot_wait_feedback">Ты решил подождать и сохранил накопления на мечту. Робота можно убрать на полку, а ремонт запланировать, когда появятся свободные карманные деньги</string>
+    <string name="task_action_back">В комнату</string>
+    <string name="task_action_confirm">Подтвердить выбор</string>
+    <string name="task_action_cancel">Ещё подумать</string>
+    <string name="task_balances">Кошелёк: %1$d · Копилка: %2$d · Жетоны: %3$d</string>
+    <string name="task_effect_summary">Награда в кошелёк: +%1$d монет\nИзменение копилки: %2$d монет\nНастроение: %3$s\nРасход времени: 1 солнечный жетон</string>
+    <string name="task_confirmation_title">Подтвердить решение?</string>
+    <string name="task_withdrawal_warning">Из копилки уйдут 20 монет на ремонт. До мечты останется накопить на 20 монет больше, а отсчёт дней для бонуса копилки начнётся заново</string>
+    <string name="task_result_title">Что получилось</string>
+    <string name="task_result_saved">Результат сохранён. За повторный просмотр монеты и жетоны не меняются</string>
+    <string name="task_mood_happy">Финни радуется сохранённой мечте</string>
+    <string name="task_mood_neutral">Финни спокоен — робот починен</string>
+    <string name="task_block_no_time">На сегодня жетоны закончились. Вернись в комнату и начни новый игровой день</string>
+    <string name="task_block_hungry">Сначала покорми Финни — нажми на миску в комнате</string>
+    <string name="task_block_savings">В копилке не хватает монет на ремонт. Можно отложить ремонт бесплатно</string>
+    <string name="task_block_not_ready">Состояние игры ещё загружается. Попробуй снова</string>
+    <string name="task_status_completed">Пройдено · Посмотреть результат</string>
+    <string name="task_status_soon">Скоро</string>
     <!-- Common Errors -->
     <string name="common_error_no_connection_title">Проблемы со связью</string>
     <string name="common_error_no_connection_msg">Проверьте интернет-соединение</string>

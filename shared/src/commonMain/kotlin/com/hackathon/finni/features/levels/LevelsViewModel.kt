@@ -4,8 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hackathon.finni.core.ui.navigation.router.Router
 import com.hackathon.finni.core.ui.navigation.router.pop
+import com.hackathon.finni.core.ui.navigation.router.push
+import com.hackathon.finni.core.ui.navigation.DilemmaTaskScreen
 import com.hackathon.finni.data.repository.GameStateRepository
 import com.hackathon.finni.features.levels.model.LevelItem
+import com.hackathon.finni.features.tasks.LevelTaskCatalog
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -53,10 +56,10 @@ class LevelsViewModel(
         _selectedLevel.value = null
     }
 
-    fun onCompleteLevel(level: LevelItem, stars: Int = 3) {
-        viewModelScope.launch {
-            repository.completeLevel(level.id, stars, level.rewardCoins)
-            _selectedLevel.value = null
-        }
+    fun onStartLevel(level: LevelItem) {
+        val taskId = LevelTaskCatalog.taskIdFor(level.id) ?: return
+        _selectedLevel.value = null
+        router.push(DilemmaTaskScreen(taskId = taskId, levelId = level.id))
     }
+
 }

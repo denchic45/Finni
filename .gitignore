@@ -36,6 +36,8 @@ build/
 ### VS Code ###
 .vscode/
 tasks/
+!shared/src/commonMain/kotlin/com/hackathon/finni/features/tasks/
+!shared/src/commonTest/kotlin/com/hackathon/finni/features/tasks/
 
 ### Mac OS ###
 .DS_Store

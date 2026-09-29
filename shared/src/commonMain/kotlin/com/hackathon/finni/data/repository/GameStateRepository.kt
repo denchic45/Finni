@@ -1,6 +1,8 @@
 package com.hackathon.finni.data.repository
 
 import com.hackathon.finni.data.database.dao.AccountDao
+import com.hackathon.finni.data.database.AppDatabase
+import com.hackathon.finni.data.database.withTransaction
 import com.hackathon.finni.data.database.dao.LevelProgressDao
 import com.hackathon.finni.data.database.dao.PetStateDao
 import com.hackathon.finni.data.database.entity.AccountEntity
@@ -34,6 +36,7 @@ interface GameStateRepository {
 }
 
 class GameStateRepositoryImpl(
+    private val database: AppDatabase,
     private val petStateDao: PetStateDao,
     private val accountDao: AccountDao,
     private val levelProgressDao: LevelProgressDao
@@ -68,15 +71,17 @@ class GameStateRepositoryImpl(
     }
 
     private suspend fun seedIfNeeded() {
-        if (petStateDao.getPetState() == null) {
-            petStateDao.upsertPetState(defaultPet)
-        }
-        if (accountDao.getAccountState() == null) {
-            accountDao.upsertAccountState(defaultAccount)
-        }
-        if (levelProgressDao.getLevelsCount() == 0) {
-            val entities = LevelsData.defaultLevels.map { it.toEntity() }
-            levelProgressDao.upsertLevels(entities)
+        database.withTransaction {
+            if (petStateDao.getPetState() == null) {
+                petStateDao.upsertPetState(defaultPet)
+            }
+            if (accountDao.getAccountState() == null) {
+                accountDao.upsertAccountState(defaultAccount)
+            }
+            if (levelProgressDao.getLevelsCount() == 0) {
+                val entities = LevelsData.defaultLevels.map { it.toEntity() }
+                levelProgressDao.upsertLevels(entities)
+            }
         }
     }
 
@@ -167,32 +172,38 @@ class GameStateRepositoryImpl(
     }
 
     override suspend fun completeLevel(levelId: Int, stars: Int, rewardCoins: Int) {
-        val currentLevel = levelProgressDao.getLevel(levelId) ?: return
-        levelProgressDao.upsertLevel(
-            currentLevel.copy(
-                status = LevelStatus.COMPLETED.name,
-                stars = maxOf(currentLevel.stars, stars)
+        database.withTransaction {
+            val currentLevel = levelProgressDao.getLevel(levelId) ?: return@withTransaction
+            if (currentLevel.status != LevelStatus.CURRENT.name) return@withTransaction
+
+            levelProgressDao.upsertLevel(
+                currentLevel.copy(
+                    status = LevelStatus.COMPLETED.name,
+                    stars = maxOf(currentLevel.stars, stars)
+                )
             )
-        )
 
-        // Разблокируем следующий уровень
-        val all = levelProgressDao.getAllLevels()
-        val next = all.firstOrNull { it.number == currentLevel.number + 1 }
-        if (next != null && next.status == LevelStatus.LOCKED.name) {
-            levelProgressDao.upsertLevel(next.copy(status = LevelStatus.CURRENT.name))
-        }
+            val all = levelProgressDao.getAllLevels()
+            val next = all.firstOrNull { it.number == currentLevel.number + 1 }
+            if (next != null && next.status == LevelStatus.LOCKED.name) {
+                levelProgressDao.upsertLevel(next.copy(status = LevelStatus.CURRENT.name))
+            }
 
-        // Начисляем монеты
-        if (rewardCoins > 0) {
-            addCoins(rewardCoins)
+            if (rewardCoins > 0) {
+                val account = accountDao.getAccountState() ?: defaultAccount
+                accountDao.upsertAccountState(account.copy(walletCoins = account.walletCoins + rewardCoins))
+            }
         }
     }
 
     override suspend fun resetGame() {
-        petStateDao.upsertPetState(defaultPet)
-        accountDao.upsertAccountState(defaultAccount)
-        val entities = LevelsData.defaultLevels.map { it.toEntity() }
-        levelProgressDao.upsertLevels(entities)
+        database.withTransaction {
+            petStateDao.upsertPetState(defaultPet)
+            accountDao.upsertAccountState(defaultAccount)
+            val entities = LevelsData.defaultLevels.map { it.toEntity() }
+            levelProgressDao.upsertLevels(entities)
+            database.taskCompletionDao().clear()
+        }
     }
 
     private fun LevelItem.toEntity(): LevelProgressEntity = LevelProgressEntity(

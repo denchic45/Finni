@@ -20,6 +20,12 @@ data class OverlayImages(val urls: List<String>, val initialIndex: Int) : Modal
 data object TasksScreen : Destination
 
 @Serializable
+data class DilemmaTaskScreen(val taskId: String, val levelId: Int? = null) : Destination
+
+@Serializable
+data object TetrisScreen : Destination
+
+@Serializable
 data object PiggyScreen : Destination
 
 @Serializable

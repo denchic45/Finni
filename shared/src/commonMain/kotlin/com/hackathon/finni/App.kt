@@ -27,6 +27,9 @@ import com.hackathon.finni.core.ui.components.LoadingHost
 import com.hackathon.finni.core.ui.navigation.AppNavDisplay
 import com.hackathon.finni.core.ui.navigation.Confirmation
 import com.hackathon.finni.core.ui.navigation.Home
+import com.hackathon.finni.core.ui.navigation.DilemmaTaskScreen
+import com.hackathon.finni.core.ui.navigation.TetrisScreen
+import com.hackathon.finni.features.tasks.TaskRunnerScreen
 import com.hackathon.finni.core.ui.navigation.OverlayImages
 import com.hackathon.finni.core.ui.navigation.SimpleOverlaySceneStrategy
 import com.hackathon.finni.core.ui.navigation.router.Destination
@@ -88,6 +91,10 @@ private fun AppNavigation(
             rememberViewModelStoreNavEntryDecorator()
         ),
         entryProvider = entryProvider {
+            entry<DilemmaTaskScreen> { destination ->
+                TaskRunnerScreen(taskId = destination.taskId, levelId = destination.levelId)
+            }
+            entry<TetrisScreen> { com.hackathon.finni.features.tetris.TetrisScreen() }
             entry<Home>(metadata = ListDetailSceneStrategy.listPane()) {
                 MainScreen(
                     onTabSelected = { tab ->

@@ -5,6 +5,8 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
@@ -27,6 +29,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Text
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,6 +50,10 @@ import com.hackathon.finni.core.ui.components.game.PetMood
 import com.hackathon.finni.features.main.components.SceneBackground
 import com.hackathon.finni.resources.Res
 import com.hackathon.finni.resources.btn_settings
+import com.hackathon.finni.resources.task_badge_star
+import com.hackathon.finni.core.ui.components.GameTaskItem
+import com.hackathon.finni.features.tasks.DilemmaCatalog
+import com.hackathon.finni.core.ui.extension.getStringResource
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -81,6 +91,7 @@ fun MainScreen(
         mood = uiState.mood,
         timePhase = uiState.timePhase,
         selectedTab = uiState.selectedTab,
+        isTetrisUnlocked = uiState.isTetrisUnlocked,
         isTasksDialogOpen = uiState.isTasksDialogOpen,
         isSceneReady = isSceneReady,
         onSceneReady = { isSceneReady = true },
@@ -92,7 +103,9 @@ fun MainScreen(
             viewModel.onTabSelected(tab)
             onTabSelected(tab)
         },
-        onDismissTasksDialog = viewModel::onDismissTasksDialog
+        onDismissTasksDialog = viewModel::onDismissTasksDialog,
+        onTaskClick = viewModel::onTaskClick,
+        onTetrisClick = viewModel::onTetrisClick
     )
 }
 
@@ -104,6 +117,7 @@ fun MainScreenContent(
     mood: PetMood = PetMood.Happy,
     timePhase: GameTimePhase = GameTimePhase.Day,
     selectedTab: GameTab? = null,
+    isTetrisUnlocked: Boolean = false,
     isTasksDialogOpen: Boolean = false,
     isSceneReady: Boolean = true,
     onSceneReady: () -> Unit = {},
@@ -112,7 +126,9 @@ fun MainScreenContent(
     onTimePhaseClick: () -> Unit = {},
     onSettingsClick: () -> Unit = {},
     onTabSelected: (GameTab) -> Unit = {},
-    onDismissTasksDialog: () -> Unit = {}
+    onDismissTasksDialog: () -> Unit = {},
+    onTaskClick: (String) -> Unit = {},
+    onTetrisClick: () -> Unit = {}
 ) {
     // Синхронная плавная анимация появления интерфейса вместе с 3D сценой
     val uiAlpha by animateFloatAsState(
@@ -219,6 +235,22 @@ fun MainScreenContent(
             }
         }
 
+        if (isTetrisUnlocked) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(top = 148.dp, end = 14.dp)
+                    .size(72.dp)
+                    .clip(RoundedCornerShape(20.dp))
+                    .background(Color(0xFF6A48B9))
+                    .border(3.dp, Color(0xFFE7D9FF), RoundedCornerShape(20.dp))
+                    .clickable(onClick = onTetrisClick),
+                contentAlignment = Alignment.Center
+            ) {
+                Text("▦\nТЕТРИС", color = Color.White, style = androidx.compose.material3.MaterialTheme.typography.labelLarge)
+            }
+        }
+
         // --- 3. НИЖНЕЕ НАВИГАЦИОННОЕ МЕНЮ (GameBottomBar) ---
         GameBottomBar(
             selectedTab = selectedTab,
@@ -232,8 +264,17 @@ fun MainScreenContent(
         TasksDialog(
             visible = isTasksDialogOpen,
             onDismissRequest = onDismissTasksDialog,
-            onTaskClick = { _ ->
-                // Нажатие на карточку задания
+            tasks = DilemmaCatalog.all.mapIndexed { index, task ->
+                GameTaskItem(
+                    id = task.id,
+                    number = index + 1,
+                    title = task.title.getStringResource(),
+                    description = task.story.getStringResource(),
+                    badgeRes = Res.drawable.task_badge_star
+                )
+            },
+            onTaskClick = { task ->
+                onTaskClick(task.id)
             }
         )
     }

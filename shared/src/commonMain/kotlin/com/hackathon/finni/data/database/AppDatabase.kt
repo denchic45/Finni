@@ -3,6 +3,9 @@ package com.hackathon.finni.data.database
 import androidx.room3.ColumnTypeConverters
 import androidx.room3.ConstructedBy
 import androidx.room3.Database
+import androidx.room3.AutoMigration
+import com.hackathon.finni.data.database.dao.TaskCompletionDao
+import com.hackathon.finni.data.database.entity.TaskCompletionEntity
 import androidx.room3.RoomDatabase
 import androidx.room3.RoomDatabaseConstructor
 import com.hackathon.finni.data.database.dao.AccountDao
@@ -20,12 +23,15 @@ import com.hackathon.finni.data.database.entity.SyncQueueEntity
         SyncQueueEntity::class,
         PetStateEntity::class,
         AccountEntity::class,
-        LevelProgressEntity::class
+        LevelProgressEntity::class,
+        TaskCompletionEntity::class
     ],
-    version = 1
+    version = 2,
+    autoMigrations = [AutoMigration(from = 1, to = 2)]
 )
 @ConstructedBy(AppDatabaseConstructor::class)
 abstract class AppDatabase : RoomDatabase() {
+    abstract fun taskCompletionDao(): TaskCompletionDao
     abstract fun syncQueueDao(): SyncQueueDao
     abstract fun petStateDao(): PetStateDao
     abstract fun accountDao(): AccountDao

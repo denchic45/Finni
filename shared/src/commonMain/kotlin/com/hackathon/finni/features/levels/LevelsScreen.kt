@@ -59,9 +59,7 @@ fun LevelsScreen(
         },
         onLevelClick = viewModel::onLevelClick,
         onDismissModal = viewModel::onDismissModal,
-        onStartLevel = { level ->
-            viewModel.onCompleteLevel(level)
-        },
+        onStartLevel = viewModel::onStartLevel,
         modifier = modifier
     )
 }
@@ -208,7 +206,7 @@ private fun LevelDetailsDialog(
                     Spacer(modifier = Modifier.height(20.dp))
                     com.hackathon.finni.core.ui.components.game.GameButton(
                         onClick = onStart,
-                        text = "ИГРАТЬ СНОВА",
+                        text = "ПОСМОТРЕТЬ ЗАДАНИЕ",
                         style = com.hackathon.finni.core.ui.components.game.GameButtonStyle.Primary,
                         size = com.hackathon.finni.core.ui.components.game.GameButtonSize.Medium,
                         modifier = Modifier.fillMaxWidth(0.75f)

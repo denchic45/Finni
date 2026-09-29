@@ -9,6 +9,9 @@ import com.hackathon.finni.core.ui.navigation.LevelsScreen
 import com.hackathon.finni.core.ui.navigation.router.Router
 import com.hackathon.finni.core.ui.navigation.router.push
 import com.hackathon.finni.data.repository.GameStateRepository
+import com.hackathon.finni.core.ui.navigation.DilemmaTaskScreen
+import com.hackathon.finni.core.ui.navigation.TetrisScreen
+import com.hackathon.finni.features.levels.model.LevelStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -22,7 +25,8 @@ data class MainScreenUiState(
     val mood: PetMood = PetMood.Happy,
     val timePhase: GameTimePhase = GameTimePhase.Day,
     val isTasksDialogOpen: Boolean = false,
-    val selectedTab: GameTab? = null
+    val selectedTab: GameTab? = null,
+    val isTetrisUnlocked: Boolean = false
 )
 
 class MainScreenViewModel(
@@ -36,9 +40,10 @@ class MainScreenViewModel(
     val uiState: StateFlow<MainScreenUiState> = combine(
         repository.petState,
         repository.accountState,
+        repository.levels,
         _isTasksDialogOpen,
         _selectedTab
-    ) { pet, account, isTasksOpen, tab ->
+    ) { pet, account, levels, isTasksOpen, tab ->
         MainScreenUiState(
             coins = account.walletCoins,
             hunger = pet.hunger,
@@ -54,7 +59,8 @@ class MainScreenViewModel(
                 else -> GameTimePhase.Night
             },
             isTasksDialogOpen = isTasksOpen,
-            selectedTab = tab
+            selectedTab = tab,
+            isTetrisUnlocked = levels.any { it.number == 10 && it.status == LevelStatus.COMPLETED }
         )
     }.stateIn(
         scope = viewModelScope,
@@ -101,6 +107,15 @@ class MainScreenViewModel(
         if (_selectedTab.value == GameTab.Tasks) {
             _selectedTab.value = null
         }
+    }
+
+    fun onTaskClick(taskId: String) {
+        onDismissTasksDialog()
+        router.push(DilemmaTaskScreen(taskId))
+    }
+
+    fun onTetrisClick() {
+        if (uiState.value.isTetrisUnlocked) router.push(TetrisScreen)
     }
 
     fun onAdvanceTimePhase() {

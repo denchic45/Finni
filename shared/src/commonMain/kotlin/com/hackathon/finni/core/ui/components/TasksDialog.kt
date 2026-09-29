@@ -51,7 +51,8 @@ data class GameTaskItem(
     val title: String,
     val description: String,
     val badgeRes: DrawableResource,
-    val isCompleted: Boolean = false
+    val isCompleted: Boolean = false,
+    val isAvailable: Boolean = true
 )
 
 /**
@@ -170,6 +171,7 @@ fun TaskCardItem(
             .clickable(
                 indication = null,
                 interactionSource = interactionSource,
+                enabled = task.isAvailable,
                 onClick = onClick
             )
             .padding(horizontal = 10.dp, vertical = 8.dp)
