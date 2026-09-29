@@ -1,35 +1,243 @@
-This is a Kotlin Multiplatform project targeting Android, iOS, Desktop (JVM).
+# 🐾 Питомец Финни (Finni)
 
-* [/iosApp](./iosApp/iosApp) contains an iOS application. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+> **Игровой мобильный сервис для формирования базовых финансовых навыков у детей 7–11 лет**  
+> Разработано в рамках конкурса **«Лидеры цифровой трансформации 2026»**  
+> *Организаторы:* Проект Мэра Москвы, Бизнес Москвы, Развитие человеческого капитала, Департамент финансов города Москвы.
 
-* [/shared](./shared/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./shared/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./shared/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./shared/src/jvmMain/kotlin)
-    folder is the appropriate location.
-
-### Running the apps
-
-Use the run configurations provided by the run widget in your IDE's toolbar. You can also use these commands and options:
-
-- Android app: `./gradlew :androidApp:assembleDebug`
-- Desktop app:
-  - Hot reload: `./gradlew :desktopApp:hotRun --auto`
-  - Standard run: `./gradlew :desktopApp:run`
-- iOS app: open the [/iosApp](./iosApp) directory in Xcode and run it from there.
-
-### Running tests
-
-Use the run button in your IDE's editor gutter, or run tests using Gradle tasks:
-
-- Android tests: `./gradlew :shared:testAndroidHostTest`
-- Desktop tests: `./gradlew :shared:jvmTest`
-- iOS tests: `./gradlew :shared:iosSimulatorArm64Test`
+[![Download APK](https://img.shields.io/badge/Скачать%20APK-v0.0.1-brightgreen?style=for-the-badge&logo=android)](https://github.com/denchic45/Finni/releases/tag/0.0.1)
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.4.0-7F52FF?style=for-the-badge&logo=kotlin)](https://kotlinlang.org/)
+[![Compose Multiplatform](https://img.shields.io/badge/Compose%20Multiplatform-1.11.1-4285F4?style=for-the-badge&logo=jetpackcompose)](https://www.jetbrains.com/lp/compose-multiplatform/)
+[![Platform](https://img.shields.io/badge/Платформы-Android%20%7C%20Desktop%20%7C%20iOS-orange?style=for-the-badge)]()
 
 ---
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+## 📥 Быстрая установка (Релизная сборка)
+
+Готовый подписанный APK-файл доступен на GitHub Releases:
+* 📲 **[Скачать Finni-v0.0.1.apk](https://github.com/denchic45/Finni/releases/tag/0.0.1)**
+* **Минимальные требования:** Android 8.0 (API 26) и выше, от 3 ГБ оперативной памяти, экран от 360 dp по ширине.
+* **Автономность:** Приложение работает на 100% оффлайн без обязательной регистрации и без сбора персональных данных.
+
+---
+
+## 🎯 О проекте и образовательная концепция
+
+Дети получают карманные деньги и участвуют в семейных покупках раньше, чем начинают понимать их ценность и правила распределения ресурсов. Приложение **«Питомец Финни»** переводит абстрактные финансовые правила в наглядный и увлекательный игровой опыт: благополучие, настроение и развитие виртуального персонажа напрямую зависят от финансовых решений маленького пользователя.
+
+Образовательная основа проекта — **Единая рамка компетенций в области финансовой грамотности и финансовой культуры (2026)**.
+
+### 🛡️ Педагогические принципы и этические рамки (Guardrails)
+* **Деньги — инструмент заботы, а не источник страха:** питомец **не может умереть, тяжело заболеть, получить травму или сбежать**. Ошибки приводят только к комичным и обратимым реакциям (урчание в животе, легкая задумчивость).
+* **Безопасная ошибка:** любой неверный шаг превращается в обучающую ситуацию с понятным объяснением и простым путем исправления.
+* **Защита от оффлайн-тревоги:** пропуск дней в реальной жизни не наказывается. Прогресс не сгорает, при возвращении в игру Финни всегда встречает ребенка отдохнувшим.
+* **Отсутствие тупиков (Anti Soft-lock):** даже при балансе 0 монет в игре всегда доступны действия («Аварийная полка» с кашей, естественный сон, гаражная распродажа).
+* **Среда без риска:** никаких реальных платежей, рекламы, платных подписок или скрытых ссылок.
+
+---
+
+## 🎮 Ключевые игровые механики
+
+```
+  ┌─────────────────────────────────────────────────────────────┐
+  │ [Миска: Сытость 0..5] [Настроение 😢/😐/😊]    [⚙️] [☀️ Утро] │
+  │ [👛 Кошелек: 120 🪙]                         [Жетоны: ●●○]  │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │                      КОМНАТА ФИННИ                          │
+  │              [ ✨ Силуэт: 🔭 Телескоп (110/200 🪙) ]        │
+  │                        (\__/)                               │
+  │                        ( • . •)  💬 «Привет! Давай          │
+  │                       / >🍲< \      спланируем день!»       │
+  │                                                             │
+  │   ┌─────────────────────────────────────────────────────┐   │
+  │   │ 🎯 Активное задание: «Первые конверты»              │   │
+  │   │ Награда: +30 🪙 | Расход: 1 ☀️ | [ Начать ]         │   │
+  │   └─────────────────────────────────────────────────────┘   │
+  ├─────────────────────────────────────────────────────────────┤
+  │  [ 📝 Задачи ]    [ 🐷 Копилка ]    [ 🛒 Магазин ]   [ 🗺️ Уровни ] │
+  └─────────────────────────────────────────────────────────────┘
+```
+
+1. **Дискретный 3-фазный день:**
+   * ☀️ **Утро:** планирование бюджета главы («Правило трех конвертов»), завтрак.
+   * ⛅ **День:** выполнение финансовых квестов, покупки в магазине, выбор альтернатив (3 солнечных жетона времени на день).
+   * 🌙 **Вечер:** жетоны исчерпаны, экран итогов дня («План vs Факт»), вклад свободного остатка в копилку под процент и спокойный сон.
+2. **Двухконтурная система счетов:**
+   * 👛 **Кошелек (Карманные деньги):** операционный счет для повседневных покупок (еда, лакомства, канцтовары).
+   * 🎯 **Копилка мечты (Сбережения):** замороженный счет для крупной цели (Телескоп, Набор художника, Мяч). При попытке импульсивного снятия система предупреждает: *«Телескоп отдалится на 2 дня! Точно забрать?»*. Пассивный доход: **+5% каждые 3 дня дисциплины**.
+3. **Метрики состояния питомца:**
+   * **Сытость (`Hunger`: 0..5):** якорь регулярных обязательных расходов («Надо»).
+   * **Настроение (`Mood`: Sad, Neutral, Happy):** отклик на необязательные радости («Хочу») и финансовые успехи.
+   * **Время суток (`TimeOfDay`: 3 жетона):** естественный регулятор экранного времени.
+4. **Движок заданий (Tasks Engine):**
+   * 4 типовых переиспользуемых Compose-шаблона:
+     * `DILEMMA` — сюжетные дилеммы с оценкой компромиссов;
+     * `SMART_SHOP` — витрина с проверкой скрытых свойств, качества и маркетинговых уловок;
+     * `CARD_SORTING` — сортировка карточек по двум корзинам («Честный труд» vs «Обман»);
+     * `BUDGET_SPLIT` — интерактивный распределитель дохода по конвертам.
+5. **Защищенный раздел для взрослого (Parent Zone):**
+   * Вход через математический барьер (`Parent Gate`);
+   * Мониторинг освоенных ребенком финансовых навыков;
+   * Настройка лимита экранного времени (1 глава в день, 2 главы или без лимита);
+   * Кнопка сброса профиля для экспертной проверки (демо-режим).
+
+---
+
+## 🏛️ Архитектура системы
+
+Проект реализован по канонам **Clean Architecture + MVVM** в рамках **Kotlin Multiplatform (KMP)** с размещением 100% бизнес-логики, состояний и UI-компонентов в общем модуле `shared/src/commonMain`.
+
+```mermaid
+graph TD
+    subgraph UI Layer [UI Layer (Compose Multiplatform)]
+        Screen[Composable Screens / HUD]
+        NavHost[AppNavDisplay & Overlay Box]
+    end
+
+    subgraph VM Layer [ViewModel Layer (shared/commonMain)]
+        VM[Feature ViewModel]
+        State[(UiState / StateFlow)]
+        Router[Router : Jetpack Navigation 3]
+        Delegates[ErrorHandler / RefreshHandler / EventHandler]
+    end
+
+    subgraph Data Layer [Data Layer (Offline-First SSOT)]
+        Repo[Repositories Facade]
+        DAO[(Room SQLite Database)]
+        Store[AndroidX DataStore]
+        Sync[NetworkBoundResource & SyncManager]
+    end
+
+    Screen -->|1. User gestures on<Action>| VM
+    VM -->|2. Safe calls launchSafe| Repo
+    Repo -->|3. Reads/Writes| DAO
+    Repo -->|4. Reads/Writes| Store
+    DAO -.->|5. Reactive Flow updates| VM
+    VM -->|6. Emits new state| State
+    State -.->|7. collectAsStateWithLifecycle| Screen
+    VM -->|8. Push/Pop/SwitchTab| Router
+    Router -.->|9. Backstack updates| NavHost
+    Delegates -.->|10. Toasts / Dialogs / Loaders| Screen
+```
+
+### Ключевые архитектурные решения:
+* **Single Source of Truth (SSOT) & Offline-First:** локальная база данных Room является единственным источником правды для UI. Кэширование и фоновые обновления абстрагированы через Arrow `Ior` / `Either` и `CacheableResource<T>`.
+* **Composition Over Inheritance (ViewModel Delegates):** отказ от монолитного `BaseViewModel` в пользу легковесных делегатов интерфейсов:
+  * `ErrorHandler` (`launchSafe` без ручных `try-catch`, авто-маппинг в `UiError`);
+  * `RefreshHandler` (`bindToRefresh()` для pull-to-refresh и повторных попыток);
+  * `LoadingHandler` (состояния `Overlay`, `Dialog`, `Snackbar`, режимы `Delayed`/`Instant`);
+  * `EventHandler` (одноразовые события: тосты, снекбары, модальные алерты).
+* **Платформо-независимая навигация (`Router`):** построена поверх **Jetpack Navigation 3 (`androidx.navigation3`)**. Маршруты разделены на корневые табы с независимыми стеками (`TopLevelRoute`), экраны стека (`NavDestination`) и модальные оверлеи (`Modal`) с плавной анимацией через `ExitController`.
+* **Data-Driven Tasks Engine:** логика 13 заданий полностью отделена от представлений. Любое новое задание добавляется декларативной конфигурацией без переработки UI.
+* **Стандарты времени:** строгая работа со временем через `kotlin.time.Instant` и `kotlin.time.Clock` (отказ от устаревшего `kotlinx.datetime.Instant`).
+
+---
+
+## 🛠️ Технологический стек
+
+| Категория | Технология | Версия | Описание |
+| :--- | :--- | :--- | :--- |
+| **Язык** | **Kotlin** | `2.4.0` | Common, JVM, Native (KMP) |
+| **Пользовательский интерфейс** | **Compose Multiplatform** | `1.11.1` | Декларативный UI для Android, Desktop и iOS |
+| **Дизайн-система** | **Material 3 / Custom GameTheme** | `1.11.0` | Мультяшная игровая стилизация, адаптивность |
+| **Навигация** | **Jetpack Navigation 3** | `1.1.1` | `androidx.navigation3` + decoupled `Router` |
+| **Внедрение зависимостей** | **Koin** | `4.2.2` | `koin-core`, `koin-compose` |
+| **Локальная база данных** | **Room Multiplatform** | `3.0.0` | SQLite DAOs, реактивные Flow, bundled sqlite |
+| **Key-Value хранилище** | **AndroidX DataStore** | `1.2.1` | `PreferencesDataStore` и типизированные настройки |
+| **Загрузка изображений** | **Coil 3** | `3.5.0` | `coil3`, `coil3.compose` мультиплатформенный загрузчик |
+| **Функциональная логика** | **Arrow-kt** | `2.0.1` | Типизированная обработка ошибок (`Either`, `Ior`) |
+| **Асинхронность** | **Kotlin Coroutines & Flow** | `1.11.0` | Реактивные потоки данных, `viewModelScope` |
+| **Сериализация** | **Kotlinx Serialization** | `1.8.0` | JSON-сериализация DTO и маршрутов навигации |
+| **Логирование** | **Kermit** | `2.1.0` | Мультиплатформенное структурированное логирование |
+
+---
+
+## 📂 Структура репозитория
+
+```text
+Finni/
+├── androidApp/                        # Специфичный для Android загрузчик и конфигурация приложения
+├── desktopApp/                        # Специфичный для Desktop (JVM) загрузчик приложения
+├── iosApp/                            # iOS проект (SwiftUI/Xcode интеграция)
+├── shared/                            # Основное ядро приложения (100% общий код)
+│   └── src/commonMain/kotlin/com/hackathon/finni/
+│       ├── core/                      # Базовые архитектурные абстракции
+│       │   ├── network/               # Обработка сетевых ответов и NetworkBoundResource
+│       │   ├── presentation/          # UiText, UiImage, UiError
+│       │   ├── resource/              # Resource<T> и CacheableResource<T>
+│       │   ├── theme/                 # Игровая тема GameTheme, цвета, типографика
+│       │   └── ui/                    # Навигация (Router), общие UI-компоненты (HUD, BottomBar)
+│       ├── features/                  # Фичи приложения (экраны, ViewModels, состояния)
+│       │   ├── game_ui_showcase/      # Интерактивная витрина игровых компонентов
+│       │   ├── home/                  # Главный экран
+│       │   └── ...                    # Задачи, магазин, копилка, родительский раздел
+│       └── data/                      # Room база данных, DAOs, DataStore, репозитории
+│   └── src/commonMain/composeResources/ # Векторные иконки (ic_*), шрифты и строки
+└── docs/                              # Полный комплект проектной документации
+    ├── game-design/                   # ТЗ, правила игры, баланс 6 глав, шаблоны задач
+    │   ├── TZ.md                      # Официальное ТЗ хакатона
+    │   ├── AGENTS.md                  # Игровая спецификация, метрики, этические рамки
+    │   ├── levels.md                  # 6 глав, баланс монет, сценарий 13 задач
+    │   └── tasks.md                   # 4 UI-шаблона механик
+    ├── core/                          # Архитектурные стандарты проекта
+    │   ├── viewmodel-layer.md         # Архитектура ViewModel и StateFlow
+    │   ├── viewmodel-delegates.md     # Делегаты ErrorHandler, RefreshHandler и др.
+    │   ├── navigation.md              # Navigation 3, Router и AppNavDisplay
+    │   ├── resource-wrappers.md       # Resource и CacheableResource
+    │   ├── resources.md               # Стандарты Compose ресурсов и моделей UiText
+    │   └── data-layer.md              # Offline-first SSOT, Room, DataStore, Instant
+    └── implementation/                # Детальные спецификации фич
+        ├── navigation.md              # Граф маршрутов и сценарии переходов
+        ├── main-screen.md             # Анатомия основного экрана, HUD и 4 вкладки
+        └── tasks-engine.md            # Data-Driven движок заданий
+```
+
+---
+
+## 🚀 Инструкция по сборке и запуску
+
+### 1. Требования к окружению
+* **JDK:** версия **17** или **21** (рекомендуется OpenJDK / Eclipse Temurin).
+* **Android SDK:** `compileSdk 37`, `minSdk 24`, Android Studio Ladybug / Meerkat или IntelliJ IDEA.
+* **Gradle:** версия 8.13+ (включена в проект через `./gradlew`).
+
+### 2. Сборка Android APK
+Для сборки отладочного или релизного APK выполните в корне проекта:
+```bash
+# Сборка отладочной версии (Debug APK):
+./gradlew :androidApp:assembleDebug
+
+# Сборка оптимизированной версии (Release APK):
+./gradlew :androidApp:assembleRelease
+```
+Собранный файл будет находиться в директории:  
+`androidApp/build/outputs/apk/release/androidApp-release-unsigned.apk` (или debug).
+
+### 3. Запуск Desktop (JVM) версии
+Благодаря Compose Multiplatform проект полноценно запускается на рабочем столе Linux, macOS и Windows:
+```bash
+# Стандартный запуск:
+./gradlew :desktopApp:run
+
+# Запуск с поддержкой Hot-Reload:
+./gradlew :desktopApp:hotRun --auto
+```
+
+### 4. Запуск автоматических тестов
+```bash
+# Тесты общего модуля на JVM:
+./gradlew :shared:jvmTest
+
+# Android unit-тесты:
+./gradlew :shared:testAndroidHostTest
+```
+
+---
+
+## 🧪 Демонстрационный режим для экспертной проверки
+
+В соответствии с **ТЗ (п. 2.5.13 и Приложение А)** в приложении предусмотрен режим для быстрой экспертной оценки:
+1. **Прохождение без пауз:** игровые периоды и дни воспроизводятся подряд без ожидания календарных суток.
+2. **Мгновенный сброс:** в разделе для взрослого (иконка шестеренки `⚙️` в верхнем баре $\rightarrow$ решение примера `Parent Gate`) доступна кнопка **«Сбросить тестовый профиль»**, которая моментально возвращает баланс, питомца и задания в стартовое состояние Главы 1.
+3. **Демонстрация покупки при нехватке средств:** магазин блокирует уход в минус и показывает дружелюбное объяснение с альтернативными вариантами.
+4. **Демонстрация защиты сбережений:** подтверждение частичного снятия с Копилки мечты визуализирует отдаление срока достижения цели.
