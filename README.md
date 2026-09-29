@@ -127,12 +127,6 @@ Finni/
 Собранный файл будет находиться в директории:  
 `androidApp/build/outputs/apk/release/androidApp-release-unsigned.apk` (или debug).
 
-### 3. Запуск автоматических тестов
-```bash
-# Android unit-тесты:
-./gradlew :shared:testAndroidHostTest
-```
-
 ---
 
 ## Демонстрационный режим для экспертной проверки
@@ -147,5 +141,5 @@ Finni/
 
 ## Источники ассетов
 
-* **3D-модель и текстуры персонажа (Финни):
-  ** [TurboSquid — Toon Turquoise Dinosaur 3D Model](https://www.turbosquid.com/ru/3d-models/3d-toon-turquoise-dinosaur-3d-model-animated-games-ready-low-2461048)
+* 3D-модель и текстуры персонажа (
+  Финни): [TurboSquid — Toon Turquoise Dinosaur 3D Model](https://www.turbosquid.com/ru/3d-models/3d-toon-turquoise-dinosaur-3d-model-animated-games-ready-low-2461048)
