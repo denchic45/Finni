@@ -1,13 +1,11 @@
 # Питомец Финни (Finni)
 
-> **Игровой мобильный сервис для формирования базовых финансовых навыков у детей 7–11 лет**  
-> Разработано в рамках конкурса **«Лидеры цифровой трансформации 2026»**  
-> *Организаторы:* Проект Мэра Москвы, Бизнес Москвы, Развитие человеческого капитала, Департамент финансов города Москвы.
+> **Игровой мобильный сервис для формирования базовых финансовых навыков у детей 7–11 лет**
 
 [![Download APK](https://img.shields.io/badge/Скачать%20APK-v0.0.1-brightgreen?style=for-the-badge&logo=android)](https://github.com/denchic45/Finni/releases/tag/0.0.1)
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.4.0-7F52FF?style=for-the-badge&logo=kotlin)](https://kotlinlang.org/)
 [![Compose Multiplatform](https://img.shields.io/badge/Compose%20Multiplatform-1.11.1-4285F4?style=for-the-badge&logo=jetpackcompose)](https://www.jetbrains.com/lp/compose-multiplatform/)
-[![Platform](https://img.shields.io/badge/Платформы-Android%20%7C%20Desktop%20%7C%20iOS-orange?style=for-the-badge)]()
+[![Platform](https://img.shields.io/badge/Платформа-Android-brightgreen?style=for-the-badge&logo=android)]()
 
 ---
 
@@ -54,20 +52,20 @@
 
 ## Технологический стек
 
-| Категория | Технология | Версия | Описание |
-| :--- | :--- | :--- | :--- |
-| **Язык** | **Kotlin** | `2.4.0` | Common, JVM, Native (KMP) |
-| **Пользовательский интерфейс** | **Compose Multiplatform** | `1.11.1` | Декларативный UI для Android, Desktop и iOS |
-| **Дизайн-система** | **Material 3 / Custom GameTheme** | `1.11.0` | Мультяшная игровая стилизация, адаптивность |
-| **Навигация** | **Jetpack Navigation 3** | `1.1.1` | `androidx.navigation3` + decoupled `Router` |
-| **Внедрение зависимостей** | **Koin** | `4.2.2` | `koin-core`, `koin-compose` |
-| **Локальная база данных** | **Room Multiplatform** | `3.0.0` | SQLite DAOs, реактивные Flow, bundled sqlite |
-| **Key-Value хранилище** | **AndroidX DataStore** | `1.2.1` | `PreferencesDataStore` и типизированные настройки |
-| **Загрузка изображений** | **Coil 3** | `3.5.0` | `coil3`, `coil3.compose` мультиплатформенный загрузчик |
-| **Функциональная логика** | **Arrow-kt** | `2.0.1` | Типизированная обработка ошибок (`Either`, `Ior`) |
-| **Асинхронность** | **Kotlin Coroutines & Flow** | `1.11.0` | Реактивные потоки данных, `viewModelScope` |
-| **Сериализация** | **Kotlinx Serialization** | `1.8.0` | JSON-сериализация DTO и маршрутов навигации |
-| **Логирование** | **Kermit** | `2.1.0` | Мультиплатформенное структурированное логирование |
+| Категория                      | Технология                                  | Версия   | Описание                                               |
+|:-------------------------------|:--------------------------------------------|:---------|:-------------------------------------------------------|
+| **Язык**                       | **Kotlin**                                  | `2.4.0`  | Язык разработки Android приложения                     |
+| **Пользовательский интерфейс** | **Jetpack Compose / Compose Multiplatform** | `1.11.1` | Декларативный UI для Android                           |
+| **Дизайн-система**             | **Material 3 / Custom GameTheme**           | `1.11.0` | Мультяшная игровая стилизация, адаптивность            |
+| **Навигация**                  | **Jetpack Navigation 3**                    | `1.1.1`  | `androidx.navigation3` + decoupled `Router`            |
+| **Внедрение зависимостей**     | **Koin**                                    | `4.2.2`  | `koin-core`, `koin-compose`                            |
+| **Локальная база данных**      | **Room Multiplatform**                      | `3.0.0`  | SQLite DAOs, реактивные Flow, bundled sqlite           |
+| **Key-Value хранилище**        | **AndroidX DataStore**                      | `1.2.1`  | `PreferencesDataStore` и типизированные настройки      |
+| **Загрузка изображений**       | **Coil 3**                                  | `3.5.0`  | `coil3`, `coil3.compose` мультиплатформенный загрузчик |
+| **Функциональная логика**      | **Arrow-kt**                                | `2.0.1`  | Типизированная обработка ошибок (`Either`, `Ior`)      |
+| **Асинхронность**              | **Kotlin Coroutines & Flow**                | `1.11.0` | Реактивные потоки данных, `viewModelScope`             |
+| **Сериализация**               | **Kotlinx Serialization**                   | `1.8.0`  | JSON-сериализация DTO и маршрутов навигации            |
+| **Логирование**                | **Kermit**                                  | `2.1.0`  | Мультиплатформенное структурированное логирование      |
 
 ---
 
@@ -75,10 +73,8 @@
 
 ```text
 Finni/
-├── androidApp/                        # Специфичный для Android загрузчик и конфигурация приложения
-├── desktopApp/                        # Специфичный для Desktop (JVM) загрузчик приложения
-├── iosApp/                            # iOS проект (SwiftUI/Xcode интеграция)
-├── shared/                            # Основное ядро приложения (100% общий код)
+├── androidApp/                        # Android приложение
+├── shared/                            # Основное ядро приложения
 │   └── src/commonMain/kotlin/com/hackathon/finni/
 │       ├── core/                      # Базовые архитектурные абстракции
 │       │   ├── network/               # Обработка сетевых ответов и NetworkBoundResource
@@ -132,21 +128,8 @@ Finni/
 Собранный файл будет находиться в директории:  
 `androidApp/build/outputs/apk/release/androidApp-release-unsigned.apk` (или debug).
 
-### 3. Запуск Desktop (JVM) версии
-Благодаря Compose Multiplatform проект полноценно запускается на рабочем столе Linux, macOS и Windows:
+### 3. Запуск автоматических тестов
 ```bash
-# Стандартный запуск:
-./gradlew :desktopApp:run
-
-# Запуск с поддержкой Hot-Reload:
-./gradlew :desktopApp:hotRun --auto
-```
-
-### 4. Запуск автоматических тестов
-```bash
-# Тесты общего модуля на JVM:
-./gradlew :shared:jvmTest
-
 # Android unit-тесты:
 ./gradlew :shared:testAndroidHostTest
 ```
